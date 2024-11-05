@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply bg-gray-800 text-white p-5 leading-10;
+        @apply bg-gray-800 text-white p-5 leading-5;
     }
 
     #root {
@@ -12,11 +12,11 @@
     }
 
     h1 {
-        @apply text-3xl font-bold text-red-600;
+        @apply text-3xl font-bold text-red-600 mb-3;
     }
 
     h2 {
-        @apply text-xl font-medium;
+        @apply text-xl font-medium mb-2;
     }
 
     aside {
