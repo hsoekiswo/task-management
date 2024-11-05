@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-gray-800 text-white p-5 leading-10;
+    }
+
+    #root {
+        @apply h-full;
+    }
+
+    h1 {
+        @apply text-3xl font-bold text-red-600;
+    }
+
+    h2 {
+        @apply text-xl font-medium;
+    }
+
+    aside {
+        @apply absolute bottom-1 left-0 h-20 w-full flex flex-row justify-around items-center;
+    }
+}
+@layer components {
+    
+}
+@layer utilities {
+    aside div {
+        @apply w-full h-full flex justify-center;
+    }
+
+    .btn-aside {
+        @apply border border-solid border-gray-700 w-full h-full flex justify-center items-center;
+    }
+
+    .new-task {
+        @apply absolute bottom-28 right-4;
+    }
+
+    .btn-new-task {
+        @apply w-20 h-20 rounded-full bg-red-600 text-4xl font-thin;
+    }
+}
