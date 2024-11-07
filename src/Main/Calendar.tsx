@@ -1,11 +1,10 @@
-import React from "react";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import '../index.css';
 
-function Calendar() {
+function Calendar({ onShow }) {
     return (
-        <>
+        <div onClick={onShow}>
             <h1>Upcoming</h1>
             <FullCalendar
                 plugins={[ dayGridPlugin ]}
@@ -16,7 +15,7 @@ function Calendar() {
                     { title: 'event 2', date: '2024-09-06' }
                 ]}
             />
-        </>
+        </div>
     )
 }
 
