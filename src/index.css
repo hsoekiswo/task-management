@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< Updated upstream
 
 @layer base {
     body {
@@ -44,5 +43,3 @@
         @apply w-20 h-20 rounded-full bg-red-600 text-4xl font-thin;
     }
 }
-=======
->>>>>>> Stashed changes
