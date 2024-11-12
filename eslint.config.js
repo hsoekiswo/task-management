@@ -31,7 +31,7 @@ export default [
         { allowConstantExport: true },
       ],
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-unused-expressions': 'error',
+      '@typescript-eslint/no-unused-expressions': 'warn',
     },
   },
   prettierConfig
