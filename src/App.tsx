@@ -15,15 +15,19 @@ function App() {
     <>
       {page === 'today' && (
         <>
-          <Today></Today>
-          <Nav onData={handlePage}></Nav>
+            <main>
+                <Today></Today>
+            </main>
+            <Nav onData={handlePage}></Nav>
         </>
       )}
 
       {page === 'calendar' && (
         <>
-          <Calendar></Calendar>
-          <Nav onData={handlePage}></Nav>
+            <main>
+                <Calendar></Calendar>
+            </main>
+            <Nav onData={handlePage}></Nav>
         </>
       )}
     </>

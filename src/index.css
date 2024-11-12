@@ -7,6 +7,10 @@
         @apply bg-gray-800 text-white p-5 leading-5;
     }
 
+    main {
+        @apply min-h-screen;
+    }
+
     #root {
         @apply h-full;
     }
@@ -20,7 +24,7 @@
     }
 
     aside {
-        @apply absolute bottom-1 left-0 h-20 w-full flex flex-row justify-around items-center;
+        @apply absolute bottom-0 left-0 sticky h-20 w-full flex flex-row justify-around items-center bg-gray-800;
     }
 }
 @layer components {
@@ -41,5 +45,13 @@
 
     .btn-new-task {
         @apply w-20 h-20 rounded-full bg-red-600 text-4xl font-thin;
+    }
+
+    .calendar-container {
+        @apply z-0;
+    }
+
+    .weekly-view {
+        @apply mb-10;
     }
 }
