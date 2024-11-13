@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 export default function CreateNew() {
+  const today = new Date().toISOString().split("T")[0];
+
   const [newTask, setNewTask] = useState({
     id: 0,
     title: '',
     description: '',
-    date: '',
+    date: today,
     priority: '',
     label: ''
   })
@@ -32,7 +34,7 @@ export default function CreateNew() {
       }
 
       allTasks.push(taskWithId);
-      localStorage.setItem('task', JSON.stringify(allTasks));
+      localStorage.setItem('tasks', JSON.stringify(allTasks));
     }
   }
 
@@ -45,7 +47,7 @@ export default function CreateNew() {
               <input type='text' name='description' value={newTask.description} onChange={handleChange} placeholder="Description" className="bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></input>
             </div>
             <div className="flex flex-row justify-stretch">
-                <input type="date" name='date' value={newTask.date} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
+                <input type="date" name='date' value={newTask.date} onChange={handleChange} min={today} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
                 <select name='priority' value={newTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
                   <option value="" disabled>Priority</option>
                   <option value="priority1" className="text-red-600">Priority 1</option>
