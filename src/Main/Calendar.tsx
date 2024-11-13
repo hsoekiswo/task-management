@@ -1,11 +1,19 @@
+import React from 'react';
 import FullCalendar, { DatesSetArg } from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import '../index.css';
 
-function Calendar({ onShow }) {
+type ShowProps = {
+    onShow: (data: boolean) => void;
+};
+
+function Calendar({ onShow }: ShowProps) {
+    function handleClick(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+        onShow(true);  // Pass the boolean to onShow
+      }
 
     return (
-        <main onClick={onShow}>
+        <main onClick={handleClick}>
             <h1>Upcoming</h1>
             <div className="calendar-container">
                 <div className='weekly-view'>

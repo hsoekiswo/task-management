@@ -1,6 +1,10 @@
 import '../index.css'
 
-function Today({ onShow }) {
+type ShowProps = {
+    onShow: (data: boolean) => void;
+};
+
+function Today({ onShow }: ShowProps) {
     const today = new Date();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const month = monthNames[today.getMonth()];
