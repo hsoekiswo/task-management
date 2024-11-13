@@ -2,7 +2,7 @@ import FullCalendar, { DatesSetArg } from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import '../index.css';
 
-function Calendar() {
+function Calendar({ onShow }) {
 
     return (
         <main>
