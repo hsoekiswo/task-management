@@ -16,23 +16,11 @@ function App() {
 
   return (
     <>
-      {page === 'today' && (
-        <>
-            <main>
-                <Today></Today>
-            </main>
-            <Nav onData={handlePage}></Nav>
-        </>
-      )}
-
-      {page === 'calendar' && (
-        <>
-            <main>
-                <Calendar></Calendar>
-            </main>
-            <Nav onData={handlePage}></Nav>
-        </>
-      )}
+        {page === 'today' && (<Today onShow={() => setIsActive(false)}></Today>)}
+        {page === 'calendar' && (<Calendar onShow={() => setIsActive(false)}></Calendar>)}
+        <NewTaskButton isActive={false} onShow={() => setIsActive(true)}></NewTaskButton>
+        <Nav onData={handlePage}></Nav>
+        {isActive ? <CreateNew></CreateNew> : <></> }
     </>
   )
 }

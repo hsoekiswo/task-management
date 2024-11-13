@@ -11,7 +11,7 @@ function Today({ onShow }) {
     const dayName: string = dayNames[today.getDay()];
 
     return (
-        <div onClick={onShow}>
+        <main onClick={onShow}>
             <header>
                 <h1>Today</h1>
                 <h2>{fullDate} • {dayName}</h2>
@@ -26,7 +26,7 @@ function Today({ onShow }) {
                     <label htmlFor='check2'>Take a cold shower</label>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }
 

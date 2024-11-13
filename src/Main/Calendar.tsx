@@ -1,13 +1,11 @@
 import FullCalendar, { DatesSetArg } from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import '../index.css';
 
 function Calendar() {
-    const today = new Date();
 
     return (
-        <div onClick={onShow}>
+        <main>
             <h1>Upcoming</h1>
             <div className="calendar-container">
                 <div className='weekly-view'>
@@ -24,7 +22,7 @@ function Calendar() {
                     />
                 </div>
             </div>
-        </>
+        </main>
     )
 }
 
