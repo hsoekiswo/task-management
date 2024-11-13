@@ -5,7 +5,7 @@ import '../index.css';
 function Calendar({ onShow }) {
 
     return (
-        <main>
+        <main onClick={onShow}>
             <h1>Upcoming</h1>
             <div className="calendar-container">
                 <div className='weekly-view'>
