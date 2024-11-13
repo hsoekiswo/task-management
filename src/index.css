@@ -8,7 +8,8 @@
     }
 
     main {
-        @apply min-h-screen;
+        min-height: 80vh;
+        overflow: scroll;
     }
 
     #root {
@@ -24,7 +25,7 @@
     }
 
     aside {
-        @apply absolute bottom-0 left-0 sticky h-20 w-full flex flex-row justify-around items-center bg-gray-800;
+        @apply fixed bottom-0 left-0 h-20 w-full flex flex-row justify-around items-center bg-gray-800;
     }
 }
 @layer components {
@@ -39,12 +40,12 @@
         @apply border border-solid border-gray-700 w-full h-full flex justify-center items-center;
     }
 
-    .new-task {
-        @apply absolute bottom-28 right-4;
+    .new-task-container {
+        @apply fixed bottom-0 right-0 w-full flex justify-end;
     }
 
     .btn-new-task {
-        @apply w-20 h-20 rounded-full bg-red-600 text-4xl font-thin;
+        @apply w-20 h-20 rounded-full bg-red-600 text-4xl font-thin absolute bottom-24 right-4;
     }
 
     .calendar-container {
