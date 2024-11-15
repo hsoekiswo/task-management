@@ -27,6 +27,18 @@
     aside {
         @apply fixed bottom-0 left-0 h-20 w-full flex flex-row justify-around items-center bg-gray-800;
     }
+
+    :root {
+        --fc-list-event-dot-width: 0px;
+        --fc-page-bg-color: rgb(55 65 81);
+        --fc-neutral-text-color: transparent;
+        --fc-list-event-hover-bg-color: #991b1b;
+        --fc-border-color: transparent;
+      }
+
+      button:hover {
+        @apply bg-red-100;
+      }
 }
 @layer components {
     
@@ -55,4 +67,11 @@
     .weekly-view {
         @apply mb-10;
     }
+
+    .fc-theme-standard .fc-list-day-cushion {
+        background-color: var(--fc-list-day-cushion-bg);
+        color: var(--fc-list-day-cushion-text-color);
+        padding: var(--fc-list-day-padding);
+        font-weight: bold;
+      }
 }

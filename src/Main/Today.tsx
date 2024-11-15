@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../index.css'
 
-type ShowProps = {
+type TodayProps = {
     onShow: (data: boolean) => void;
+    isEdit: boolean;
+    onEdit: (data: boolean) => void;
+    onID: (data: React.MouseEvent<HTMLLabelElement>) => void;
 };
 
-function Today({ onShow }: ShowProps) {
+function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
     const today = new Date();
     const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -23,6 +26,7 @@ function Today({ onShow }: ShowProps) {
         date: string;
         priority: string;
         label: string;
+        check: boolean;
     }
     const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -41,18 +45,10 @@ function Today({ onShow }: ShowProps) {
                 <h2>{fullDate} • {dayName}</h2>
             </header>
             <div className="checklistContainer">
-                <div>
-                    <input type='checkbox' name='check1' />
-                    <label htmlFor='check1'>Read book for 15 minutes</label>
-                </div>
-                <div>
-                    <input type='checkbox' name='check2' />
-                    <label htmlFor='check2'>Take a cold shower</label>
-                </div>
                 {tasks.map((item, i) => (
                     <div>
                         <input type='checkbox' name={`check` + i} />
-                        <label htmlFor={`check` + i}>{item.title}</label>
+                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} data-id={item.id} onClick={(e) => {onEdit(!isEdit); onID(e);}}>{item.title}</label>
                     </div>
                 ))}
             </div>

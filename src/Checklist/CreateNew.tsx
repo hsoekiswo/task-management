@@ -9,7 +9,8 @@ export default function CreateNew() {
     description: '',
     date: today,
     priority: '',
-    label: ''
+    label: '',
+    check: false,
   })
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -64,7 +65,7 @@ export default function CreateNew() {
                 </select>
             </div>
             <div className="flex justify-end">
-              <button type="submit" onClick={handleSubmit} className="text-3xl mt-3 mb-4 mr-6">
+              <button type="submit" onClick={handleSubmit} className="text-3xl mt-3 mb-4 mr-6 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-9 w-9 text-red-600" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
               </svg>
