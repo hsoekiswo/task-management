@@ -7,7 +7,7 @@ type ShowProps = {
 
 function Today({ onShow }: ShowProps) {
     const today = new Date();
-    const todayDate = new Date().toISOString().split("T")[0];
+    const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const month = monthNames[today.getMonth()];
     const day: string = String(today.getDate()).padStart(2, '0');
@@ -16,16 +16,25 @@ function Today({ onShow }: ShowProps) {
     const dayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const dayName: string = dayNames[today.getDay()];
 
-    const [tasks, setTasks] = useState([]);
+    interface Task {
+        id: number;
+        title: string;
+        description: string;
+        date: string;
+        priority: string;
+        label: string;
+    }
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        const tasksValue = JSON.parse(localStorage.getItem('tasks')) || []
-        const filteredTasks = tasksValue.filter((task: string) => (task.date.includes('2024-11-13')))
+        const tasksValue: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+        const filteredTasks = tasksValue.filter((task) => (task.date.includes(todayDate)))
 
         setTasks(filteredTasks);
-    }, []);
+    }, [setTasks, todayDate]);
 
     return (
+        // Tanyain di kelas
         <main onClick={onShow}>
             <header>
                 <h1>Today</h1>

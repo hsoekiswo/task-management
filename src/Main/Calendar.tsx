@@ -1,5 +1,5 @@
 import React from 'react';
-import FullCalendar, { DatesSetArg } from '@fullcalendar/react';
+import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import '../index.css';
 
