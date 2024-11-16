@@ -37,6 +37,18 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
         setTasks(filteredTasks);
     }, [setTasks, todayDate]);
 
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checkStatus: boolean = e.target.checked;
+        const dataId: string = e.target.getAttribute('data-id') ?? '0';
+        const tasks: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+        const taskIndex: number = tasks.findIndex(task => task.id === Number(dataId));
+        if (taskIndex !== -1) {
+            tasks[taskIndex].check = checkStatus;
+        }
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
     return (
         // Tanyain di kelas
         <main onClick={onShow}>
@@ -47,8 +59,8 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
             <div className="checklistContainer">
                 {tasks.map((item, i) => (
                     <div>
-                        <input type='checkbox' name={`check` + i} />
-                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} data-id={item.id} onClick={(e) => {onEdit(!isEdit); onID(e);}}>{item.title}</label>
+                        <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} />
+                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {onEdit(!isEdit); onID(e);}}>{item.title}</label>
                     </div>
                 ))}
             </div>
@@ -57,3 +69,10 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
 }
 
 export default Today;
+
+/*
+Pseudo code checklist
+1. store ID when event check the list
+2. identify the ID on localStorage, filter task
+3. change false to true or vice versa
+*/
