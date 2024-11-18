@@ -57,11 +57,11 @@ export default function TaskViewer({ taskStorageId }) {
     }
 
     return (
-        <div className="absolute bg-slate-500 top-32 border p-3 w-5/6">
+        <div className="fixed bottom-0 left-0 w-full rounded-lg bg-slate-500 top-32 border p-3 w-5/6 z-10">
             <form className='flex flex-col'>
-                <button type='submit' onClick={handleEdit} className='fixed right-20 font-bold text-gray-400 hover:bg-transparent hover:text-white'>Save</button>
+                <button type='submit' onClick={handleEdit} className='fixed right-5 font-bold text-gray-400 hover:bg-transparent hover:text-white'>Save</button>
                 <input type='text' name='title' value={editTask.title} onChange={handleChange} placeholder={taskTitle} className="bg-gray-600 mx-2 my-1.5 p-1 text-2xl focus:outline-none mt-8"></input>
-                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription} className="bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></textarea>
+                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription} className="h-24 bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></textarea>
                 <input type='date' placeholder={taskDate} defaultValue={taskDate} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
                 <select name='priority' value={editTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
                 <option disabled>Priority</option>
@@ -77,7 +77,7 @@ export default function TaskViewer({ taskStorageId }) {
                 <option value="work">Work</option>
                 <option value="hobby">Hobby</option>
                 </select>
-                <button onClick={handleDelete} className='text-red-500 border'>Delete</button>
+                <button onClick={handleDelete} className='text-red-500 border rounded-lg mt-1'>Delete</button>
             </form>
         </div>
     )
