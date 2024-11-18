@@ -3,12 +3,11 @@ import '../index.css'
 
 type TodayProps = {
     onShow: (data: boolean) => void;
-    isEdit: boolean;
-    onEdit: (data: boolean) => void;
     onID: (data: React.MouseEvent<HTMLLabelElement>) => void;
+    onView: (data: boolean) => void;
 };
 
-function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
+function Today({ onShow, onID, onView }: TodayProps) {
     const today = new Date();
     const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -51,7 +50,7 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
 
     return (
         // Tanyain di kelas
-        <main onClick={onShow}>
+        <main onClick={() => {onShow(false); onView(false);}}>
             <header>
                 <h1>Today</h1>
                 <h2>{fullDate} • {dayName}</h2>
@@ -60,7 +59,8 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
                 {tasks.map((item, i) => (
                     <div>
                         <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} />
-                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {onEdit(!isEdit); onID(e);}}>{item.title}</label>
+                        {/* Tanya soal e.stopPropagation */}
+                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onID(e);}}>{item.title}</label>
                     </div>
                 ))}
             </div>
@@ -69,10 +69,3 @@ function Today({ onShow, isEdit, onEdit, onID }: TodayProps) {
 }
 
 export default Today;
-
-/*
-Pseudo code checklist
-1. store ID when event check the list
-2. identify the ID on localStorage, filter task
-3. change false to true or vice versa
-*/

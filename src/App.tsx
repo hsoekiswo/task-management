@@ -4,13 +4,13 @@ import Today from './Main/Today'
 import Calendar from './Main/Calendar';
 import CreateNew from './Checklist/CreateNew';
 import { NewTaskButton } from './Button/Button';
+import TaskViewer from './Checklist/TaskViewer';
 import './index.css'
-import EditTask from './Checklist/EditTask';
 
 function App() {
   const [page, setPage] = useState('today');
   const [isActive, setIsActive] = useState(false);
-  const [isEdit, setEdit] = useState(false);
+  const [isView, setIsView] = useState(false);
   const [taskID, setTaskID] = useState(0)
 
   const handlePage = (data: string) => {
@@ -30,12 +30,11 @@ function App() {
     <>
         {page === 'today' && (<Today
           onShow={() => setIsActive(false)}
-          isEdit={isEdit}
-          onEdit={() => setEdit(!isEdit)}
           onID={handleID}
+          onView={setIsView}
         />)}
         {page === 'calendar' && (<Calendar onShow={() => setIsActive(false)} />)}
-        {isEdit && <EditTask taskID={taskID}/>}
+        {isView && <TaskViewer taskStorageId={taskID}/>}
         <NewTaskButton isActive={isActive} onShow={() => setIsActive(true)} />
         <Nav onData={handlePage}></Nav>
         {isActive && <CreateNew/>}
