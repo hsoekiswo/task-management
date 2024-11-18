@@ -1,4 +1,4 @@
-export function NewTaskButton({ isActive, onShow }) {
+export function NewTaskButton({ isCreate, onShow }) {
   return (
       <div className="new-task-container">
           <button className='btn-new-task' onClick={onShow}>+</button>

@@ -3,11 +3,13 @@ import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import '../index.css';
 
-type ShowProps = {
-    onShow: (data: boolean) => void;
+type CalendarProps = {
+    onCreate: (data: boolean) => void;
+    onId: (data: React.MouseEvent<HTMLLabelElement>) => void;
+    onView: (data: boolean) => void;
 };
 
-function Calendar({ onShow }: ShowProps) {
+function Calendar({ onCreate, onId, onView }: CalendarProps) {
     interface Task {
         id: number;
         title: string;
@@ -27,7 +29,19 @@ function Calendar({ onShow }: ShowProps) {
     }, [setTasks])
 
     function handleClick() {
-        onShow(true);  // Pass the boolean to onShow
+        onCreate(true);  // Pass the boolean to onShow
+    }
+
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checkStatus: boolean = e.target.checked;
+        const dataId: string = e.target.getAttribute('data-id') ?? '0';
+        const tasks: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+        const taskIndex: number = tasks.findIndex(task => task.id === Number(dataId));
+        if (taskIndex !== -1) {
+            tasks[taskIndex].check = checkStatus;
+        }
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
     const eventContent = (eventInfo) => {
@@ -37,9 +51,9 @@ function Calendar({ onShow }: ShowProps) {
             <div>
                 <input
                     type='checkbox'
-                    // onChange={() => toggleCompletion(eventInfo.event.id)}
+                    id={`check` + task.id}  data-id={task.id} onChange={(e) => handleCheck(e)}
                 />
-                <label className='cursor-pointer'>
+                <label htmlFor={`check` + task.id} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}} className='cursor-pointer'>
                         {eventInfo.event.title}
                 </label>
             </div>
@@ -63,7 +77,7 @@ function Calendar({ onShow }: ShowProps) {
     }
 
     return (
-        <main onClick={handleClick}>
+        <main  onClick={() => {onCreate(false); onView(false);}}>
             <h1>Upcoming</h1>
             <div className="calendar-container">
                 <div className='weekly-view'>

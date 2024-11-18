@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import '../index.css'
 
 type TodayProps = {
-    onShow: (data: boolean) => void;
-    onID: (data: React.MouseEvent<HTMLLabelElement>) => void;
+    onCreate: (data: boolean) => void;
+    onId: (data: React.MouseEvent<HTMLLabelElement>) => void;
     onView: (data: boolean) => void;
 };
 
-function Today({ onShow, onID, onView }: TodayProps) {
+function Today({ onCreate, onId, onView }: TodayProps) {
     const today = new Date();
     const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -49,8 +49,8 @@ function Today({ onShow, onID, onView }: TodayProps) {
     }
 
     return (
-        // Tanyain di kelas
-        <main onClick={() => {onShow(false); onView(false);}}>
+        // Tanyain di kelas soal data type
+        <main onClick={() => {onCreate(false); onView(false);}}>
             <header>
                 <h1>Today</h1>
                 <h2>{fullDate} • {dayName}</h2>
@@ -60,7 +60,7 @@ function Today({ onShow, onID, onView }: TodayProps) {
                     <div>
                         <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} />
                         {/* Tanya soal e.stopPropagation */}
-                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onID(e);}}>{item.title}</label>
+                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{item.title}</label>
                     </div>
                 ))}
             </div>

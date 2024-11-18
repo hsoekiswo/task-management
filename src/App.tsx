@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Nav from './Nav/Nav'
 import Today from './Main/Today'
 import Calendar from './Main/Calendar';
@@ -9,7 +9,7 @@ import './index.css'
 
 function App() {
   const [page, setPage] = useState('today');
-  const [isActive, setIsActive] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
   const [isView, setIsView] = useState(false);
   const [taskID, setTaskID] = useState(0)
 
@@ -29,15 +29,19 @@ function App() {
   return (
     <>
         {page === 'today' && (<Today
-          onShow={() => setIsActive(false)}
-          onID={handleID}
+          onCreate={() => setIsCreate(false)}
+          onId={handleID}
           onView={setIsView}
         />)}
-        {page === 'calendar' && (<Calendar onShow={() => setIsActive(false)} />)}
+        {page === 'calendar' && (<Calendar
+          onCreate={() => setIsCreate(false)} 
+          onId={handleID}
+          onView={setIsView}
+        />)}
         {isView && <TaskViewer taskStorageId={taskID}/>}
-        <NewTaskButton isActive={isActive} onShow={() => setIsActive(true)} />
+        <NewTaskButton isCreate={isCreate} onShow={() => setIsCreate(true)} />
         <Nav onData={handlePage}></Nav>
-        {isActive && <CreateNew/>}
+        {isCreate && <CreateNew/>}
     </>
   )
 }
