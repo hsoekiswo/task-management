@@ -57,11 +57,15 @@ function Today({ onCreate, onId, onView }: TodayProps) {
             </header>
             <div className="checklistContainer">
                 {tasks.map((item, i) => (
-                    <div>
-                        <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} />
-                        {/* Tanya soal e.stopPropagation */}
-                        <label className='cursor-pointer ml-2 text-lg' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{item.title}</label>
-                    </div>
+                    <>
+                        <div className='flex items-center space-x-2'>
+                            <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer' />
+                            {/* Tanya soal e.stopPropagation */}
+                            <label className='cursor-pointer ml-2 text-xl' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{item.title}</label>
+                        </div>
+                        <p className='text-lg ml-6 text-green-400'>{item.label}</p>
+                        <div className="border-t border-slate-700 my-4"></div>
+                    </>
                 ))}
             </div>
         </main>
