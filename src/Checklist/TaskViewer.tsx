@@ -57,25 +57,25 @@ export default function TaskViewer({ taskStorageId }) {
     }
 
     return (
-        <div className="fixed bottom-0 left-0 w-full rounded-lg bg-slate-500 top-32 border p-3 w-5/6 z-10">
+        <div className="fixed bottom-0 left-0 w-full rounded-lg bg-gray-500 top-32 border p-3 w-5/6 z-10">
             <form className='flex flex-col'>
                 <button type='submit' onClick={handleEdit} className='fixed right-5 font-bold text-gray-400 hover:bg-transparent hover:text-white'>Save</button>
                 <input type='text' name='title' value={editTask.title} onChange={handleChange} placeholder={taskTitle} className="bg-gray-600 mx-2 my-1.5 p-1 text-2xl focus:outline-none mt-8"></input>
-                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription} className="h-24 bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></textarea>
+                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription && taskDescription.trim() ? taskDescription : 'Description'} className="h-24 bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></textarea>
                 <input type='date' placeholder={taskDate} defaultValue={taskDate} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
                 <select name='priority' value={editTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
-                <option disabled>Priority</option>
-                <option value="priority1" className="text-red-600">Priority 1</option>
-                <option value="priority2">Priority 2</option>
-                <option value="priority3">Priority 3</option>
-                <option value="priority4">Priority 4</option>
+                    <option value="" disabled>Priority</option>
+                    <option value="priority1">Priority 1</option>
+                    <option value="priority2">Priority 2</option>
+                    <option value="priority3">Priority 3</option>
+                    <option value="priority4">Priority 4</option>
                 </select>
                 <select name='label' value={editTask.label} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
-                <option disabled>Label</option>
-                <option value="family">Family</option>
-                <option value="house">House</option>
-                <option value="work">Work</option>
-                <option value="hobby">Hobby</option>
+                    <option value="" disabled>Label</option>
+                    <option value="family">Family</option>
+                    <option value="house">House</option>
+                    <option value="work">Work</option>
+                    <option value="hobby">Hobby</option>
                 </select>
                 <button onClick={handleDelete} className='text-red-500 border rounded-lg mt-1'>Delete</button>
             </form>

@@ -48,15 +48,15 @@ function Calendar({ onCreate, onId, onView }: CalendarProps) {
         const task = tasks.find((task) => task.title === eventInfo.event.title);
 
         return (
-            <div className='flex items-center space-x-2'>
-                <input
-                    type='checkbox'
-                    id={`check` + task.id}  data-id={task.id} onChange={(e) => handleCheck(e)}
-                    className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer'
-                />
-                <label htmlFor={`check` + task.id}>
-                        <button className='ml-1' onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{eventInfo.event.title}</button>
-                </label>
+            <div className='flex items-start space-x-2'>
+                <button  onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}} className='w-full text-left'>
+                    <input
+                        type='checkbox'
+                        id={`check` + task.id}  data-id={task.id} onClick={(e) => {e.stopPropagation(); handleCheck(e)}}
+                        className='w-3 h-3 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer'
+                    />
+                    <label htmlFor={`check` + task.id} className='ml-2 text-lg w-full'>{eventInfo.event.title}</label>
+                </button>
             </div>
         );
     };

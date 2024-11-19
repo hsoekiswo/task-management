@@ -38,6 +38,11 @@
         .fc .fc-toolbar-title {
             font-size: var(--fc-toolbar-title-size);
           }
+        
+        .fc-list-event-time {
+            padding: 0px;
+            vertical-align: middle;
+        }
     }
 
     /* button:hover {

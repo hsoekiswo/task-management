@@ -51,7 +51,7 @@ export default function CreateNew() {
                 <input type="date" name='date' value={newTask.date} onChange={handleChange} min={today} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
                 <select name='priority' value={newTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
                   <option value="" disabled>Priority</option>
-                  <option value="priority1" className="text-red-600">Priority 1</option>
+                  <option value="priority1">Priority 1</option>
                   <option value="priority2">Priority 2</option>
                   <option value="priority3">Priority 3</option>
                   <option value="priority4">Priority 4</option>
