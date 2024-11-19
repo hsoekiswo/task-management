@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import '../index.css'
+import './index.css'
 
 type TodayProps = {
     onCreate: (data: boolean) => void;
@@ -56,20 +56,20 @@ function Today({ onCreate, onId, isView, onView }: TodayProps) {
                 <h1>Today</h1>
                 <h2>{fullDate} • {dayName}</h2>
             </header>
-            <div className="checklistContainer">
+            <div>
                 {tasks.map((item, i) => (
                     <>
-                        <div className='flex items-center space-x-2'>
+                        <div className='task-container'>
                             {/* Tanya soal e.stopPropagation */}
-                            <button onClick={(e) => {e.stopPropagation(); onView(!isView); onId(e);}} className='w-full text-left'>
-                                <input type='checkbox' id={`check` + i}  data-id={item.id} onClick={(e) => {e.stopPropagation();handleCheck(e);}} className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer' />
-                                <label className='ml-2 text-xl w-full' htmlFor={`check` + i}>
+                            <button onClick={(e) => {e.stopPropagation(); onView(!isView); onId(e);}} className='btn-task'>
+                                <input type='checkbox' id={`check` + i}  data-id={item.id} onClick={(e) => {e.stopPropagation();handleCheck(e);}} className='task-checkbox medium-checkbox' />
+                                <label className='task-label text-xl' htmlFor={`check` + i}>
                                     {item.title}
                                 </label>
-                                <p className='text-lg ml-6 text-green-400'>{item.label}</p>
+                                <div className='tag'>{item.label}</div>
                             </button>
                         </div>
-                        <div className="border-t border-slate-700 my-4"></div>
+                        <div className="divider"></div>
                     </>
                 ))}
             </div>

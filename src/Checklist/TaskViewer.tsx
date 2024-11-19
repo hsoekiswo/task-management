@@ -65,17 +65,17 @@ export default function TaskViewer({ taskStorageId }) {
                 <input type='date' placeholder={taskDate} defaultValue={taskDate} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
                 <select name='priority' value={editTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
                     <option value="" disabled>Priority</option>
-                    <option value="priority1">Priority 1</option>
-                    <option value="priority2">Priority 2</option>
-                    <option value="priority3">Priority 3</option>
-                    <option value="priority4">Priority 4</option>
+                    <option value="Priority1">Priority 1</option>
+                    <option value="Priority2">Priority 2</option>
+                    <option value="Priority3">Priority 3</option>
+                    <option value="Priority4">Priority 4</option>
                 </select>
                 <select name='label' value={editTask.label} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
                     <option value="" disabled>Label</option>
-                    <option value="family">Family</option>
-                    <option value="house">House</option>
-                    <option value="work">Work</option>
-                    <option value="hobby">Hobby</option>
+                    <option value="Family">Family</option>
+                    <option value="House">House</option>
+                    <option value="Work">Work</option>
+                    <option value="Hobby">Hobby</option>
                 </select>
                 <button onClick={handleDelete} className='text-red-500 border rounded-lg mt-1'>Delete</button>
             </form>
