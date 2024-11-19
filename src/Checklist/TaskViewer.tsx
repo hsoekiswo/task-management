@@ -14,7 +14,7 @@ export default function TaskViewer({ taskStorageId }) {
 
     const tasks: [] = JSON.parse(localStorage.getItem('tasks'));
     const selectedTask: Task[] = tasks.filter((task) => task.id === Number(taskStorageId));
-    const taskIndex: number = tasks.findIndex(task => task.id === Number(taskStorageId));
+    const taskIndex: number = tasks.findIndex((task) => task.id === Number(taskStorageId));
     const taskId: number = selectedTask[0].id
     const taskTitle: string = selectedTask[0].title
     const taskDescription: string = selectedTask[0].description

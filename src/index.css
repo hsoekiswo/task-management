@@ -40,9 +40,9 @@
           }
     }
 
-    button:hover {
+    /* button:hover {
         @apply bg-red-100;
-    }
+    } */
 }
 @layer components {
     

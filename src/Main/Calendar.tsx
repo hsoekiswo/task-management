@@ -54,8 +54,8 @@ function Calendar({ onCreate, onId, onView }: CalendarProps) {
                     id={`check` + task.id}  data-id={task.id} onChange={(e) => handleCheck(e)}
                     className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer'
                 />
-                <label htmlFor={`check` + task.id} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}} className='cursor-pointer'>
-                        <span className='ml-1'>{eventInfo.event.title}</span>
+                <label htmlFor={`check` + task.id}>
+                        <button className='ml-1' onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{eventInfo.event.title}</button>
                 </label>
             </div>
         );

@@ -17,10 +17,9 @@ function App() {
     setPage(data);
   };
 
-  const handleID = (e: React.MouseEvent<HTMLLabelElement>) => {
-    e.preventDefault()
-    const inputId: string = e.currentTarget.getAttribute('for');
-    const inputElement: HTMLInputElement = document.getElementById(inputId);
+  const handleID = (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    const inputElement: HTMLInputElement = e.currentTarget.querySelector('input[type="checkbox"]');
     const dataId: number = inputElement.dataset.id;
 
     setTaskID(dataId);
@@ -31,6 +30,7 @@ function App() {
         {page === 'today' && (<Today
           onCreate={() => setIsCreate(false)}
           onId={handleID}
+          isView={isView}
           onView={setIsView}
         />)}
         {page === 'calendar' && (<Calendar

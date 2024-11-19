@@ -3,11 +3,12 @@ import '../index.css'
 
 type TodayProps = {
     onCreate: (data: boolean) => void;
-    onId: (data: React.MouseEvent<HTMLLabelElement>) => void;
+    onId: (data: React.MouseEvent<HTMLButtonElement>) => void;
+    isView: boolean;
     onView: (data: boolean) => void;
 };
 
-function Today({ onCreate, onId, onView }: TodayProps) {
+function Today({ onCreate, onId, isView, onView }: TodayProps) {
     const today = new Date();
     const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -59,11 +60,15 @@ function Today({ onCreate, onId, onView }: TodayProps) {
                 {tasks.map((item, i) => (
                     <>
                         <div className='flex items-center space-x-2'>
-                            <input type='checkbox' id={`check` + i}  data-id={item.id} onChange={(e) => handleCheck(e)} className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer' />
                             {/* Tanya soal e.stopPropagation */}
-                            <label className='cursor-pointer ml-2 text-xl' htmlFor={`check` + i} onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}>{item.title}</label>
+                            <button onClick={(e) => {e.stopPropagation(); onView(!isView); onId(e);}} className='w-full text-left'>
+                                <input type='checkbox' id={`check` + i}  data-id={item.id} onClick={(e) => {e.stopPropagation();handleCheck(e);}} className='w-4 h-4 appearance-none bg-gray-200 border-1 border-gray-400 rounded-full checked:bg-red-500 checked:border-white checked:border-2 cursor-pointer' />
+                                <label className='ml-2 text-xl w-full' htmlFor={`check` + i}>
+                                    {item.title}
+                                </label>
+                                <p className='text-lg ml-6 text-green-400'>{item.label}</p>
+                            </button>
                         </div>
-                        <p className='text-lg ml-6 text-green-400'>{item.label}</p>
                         <div className="border-t border-slate-700 my-4"></div>
                     </>
                 ))}
