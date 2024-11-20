@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import '../index.css';
+import './index.css';
 
-export default function TaskViewer({ taskStorageId }) {
+export default function TaskViewer({ taskStorageId, onView }) {
     interface Task {
         id: number;
         title: string;
@@ -57,27 +57,41 @@ export default function TaskViewer({ taskStorageId }) {
     }
 
     return (
-        <div className="fixed bottom-0 left-0 w-full rounded-lg bg-gray-500 top-32 border p-3 w-5/6 z-10">
+        <div className="form-container container-edit">
             <form className='flex flex-col'>
-                <button type='submit' onClick={handleEdit} className='fixed right-5 font-bold text-gray-400 hover:bg-transparent hover:text-white'>Save</button>
-                <input type='text' name='title' value={editTask.title} onChange={handleChange} placeholder={taskTitle} className="bg-gray-600 mx-2 my-1.5 p-1 text-2xl focus:outline-none mt-8"></input>
-                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription && taskDescription.trim() ? taskDescription : 'Description'} className="h-24 bg-gray-600 mx-2 my-1 p-1 focus:outline-none"></textarea>
-                <input type='date' placeholder={taskDate} defaultValue={taskDate} className="bg-gray-600 border p-2 m-1 rounded-md"></input>
-                <select name='priority' value={editTask.priority} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
+                <div className='flex w-full max-w-screen px-2 justify-between'>
+                    <button type='submit' onClick={handleEdit} className='btn-title-bar'>Save</button>
+                    <button onClick={() => onView(false)} className='btn-title-bar'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                        </svg>
+                    </button>
+                </div>
+                <input type='text' name='title' value={editTask.title} onChange={handleChange} placeholder={taskTitle} className="title title-edit"></input>
+                <div className='divider'></div>
+                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription && taskDescription.trim() ? taskDescription : 'Description'} className="description description-edit"></textarea>
+                <div className='divider'></div>
+                <input type='date' placeholder={taskDate} defaultValue={taskDate} className="btn-select btn-select-edit"></input>
+                <div className='divider'></div>
+                <select name='priority' value={editTask.priority} onChange={handleChange} className="btn-select btn-select-edit">
                     <option value="" disabled>Priority</option>
                     <option value="Priority1">Priority 1</option>
                     <option value="Priority2">Priority 2</option>
                     <option value="Priority3">Priority 3</option>
                     <option value="Priority4">Priority 4</option>
                 </select>
-                <select name='label' value={editTask.label} onChange={handleChange} className="bg-gray-600 border p-2 m-1 rounded-md">
+                <div className='divider'></div>
+                <select name='label' value={editTask.label} onChange={handleChange} className="btn-select btn-select-edit">
                     <option value="" disabled>Label</option>
                     <option value="Family">Family</option>
                     <option value="House">House</option>
                     <option value="Work">Work</option>
                     <option value="Hobby">Hobby</option>
                 </select>
-                <button onClick={handleDelete} className='text-red-500 border rounded-lg mt-1'>Delete</button>
+                <div className='divider'></div>
+                <div className='btn-delete-container'>
+                    <button onClick={handleDelete} className='btn-delete'>Delete</button>
+                </div>
             </form>
         </div>
     )

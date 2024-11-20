@@ -38,7 +38,7 @@ function App() {
           onId={handleID}
           onView={setIsView}
         />)}
-        {isView && <TaskViewer taskStorageId={taskID}/>}
+        {isView && <TaskViewer taskStorageId={taskID} onView={setIsView}/>}
         <NewTaskButton isCreate={isCreate} onShow={() => setIsCreate(true)} />
         <Nav onData={handlePage}></Nav>
         {isCreate && <CreateNew/>}

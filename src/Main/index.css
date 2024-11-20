@@ -27,7 +27,7 @@
     }
 
     .divider {
-        @apply border-t border-slate-700 my-4
+        @apply border-t border-slate-700 my-4;
     }
 }
 @layer utilities {
