@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import './index.css';
+import { z } from "zod";
 
-export default function CreateNew() {
-  const today = new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().slice(0, 10);
+const TaskSchema = z.object({
+  id: z.number().default(0),
+  title: z.string().min(5, "Title must be at least 5 characters"),
+  description: z.string(),
+  date: z.string().default(today),
+  priority: z.string().default(""),
+  label: z.string().default(""),
+  check: z.boolean().default(false),
+});
 
+type TaskSchemaType = z.infer<typeof TaskSchema>
+
+export default function CreateNew({ onSubmit }: { onSubmit: (task: TaskSchemaType) => void }) {
   const [newTask, setNewTask] = useState({
     id: 0,
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     date: today,
-    priority: '',
-    label: '',
+    priority: "",
+    label: "",
     check: false,
-  })
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  });
+  const [error, setError] = useState<z.ZodError<TaskSchemaType> | null >(null);
+  
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = target;
     setNewTask(prevTask => ({
       ...prevTask,
@@ -22,27 +35,30 @@ export default function CreateNew() {
     }));
   }
 
-  const handleSubmit = (event) => {
-    const form = document.getElementById("new-task");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = TaskSchema.safeParse(newTask);
 
-    if (!form.checkValidity()) {
-      event.preventDefault();
-    } else {
-      const allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-      const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
-      const taskWithId = {
-        ...newTask,
-        id: newId,
-      }
-
-      allTasks.push(taskWithId);
-      localStorage.setItem('tasks', JSON.stringify(allTasks));
+    if (!result.success) {
+      setError(result.error);
+      return;
     }
+
+    onSubmit(result.data);
+
+    // const allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    // const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
+    // const taskWithId = {
+    //   ...newTask,
+    //   id: newId,
+    // }
+    // allTasks.push(taskWithId);
+    // localStorage.setItem('tasks', JSON.stringify(allTasks));
   }
 
   return (
     <div>
-      <form id="new-task">
+      <form id="new-task" onSubmit={handleSubmit}>
         <div className="form-container">
             <div className="flex flex-col">
               <input type='text' name='title' value={newTask.title} onChange={handleChange} placeholder="Task Name" className="title" required></input>
@@ -65,8 +81,9 @@ export default function CreateNew() {
                   <option value="Hobby">Hobby</option>
                 </select>
             </div>
+            {error && <p className='text-red-500 p-2'>{error.errors.map(err => err.message).join(", ")}</p>}
             <div className="flex justify-end">
-              <button type="submit" onClick={handleSubmit} className="btn-submit">
+              <button type="submit" className="btn-submit">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-9 w-9 text-red-600" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
               </svg>

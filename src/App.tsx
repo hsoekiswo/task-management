@@ -25,6 +25,22 @@ function App() {
     setTaskID(dataId);
   }
 
+  const handleTaskSubmit = (task: any) => {
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
+
+    const taskWithId = {
+      ...task,
+      id: newId,
+    };
+
+    allTasks.push(taskWithId);
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+    
+    console.log("Validated Task", task);
+    setIsCreate(false);
+  }
+
   return (
     <>
         {page === 'today' && (<Today
@@ -41,7 +57,7 @@ function App() {
         {isView && <TaskViewer taskStorageId={taskID} onView={setIsView}/>}
         <NewTaskButton isCreate={isCreate} onShow={() => setIsCreate(true)} />
         <Nav onData={handlePage}></Nav>
-        {isCreate && <CreateNew/>}
+        {isCreate && <CreateNew onSubmit={handleTaskSubmit} />}
     </>
   )
 }
