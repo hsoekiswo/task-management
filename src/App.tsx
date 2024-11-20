@@ -6,6 +6,7 @@ import CreateNew from './Checklist/CreateNew';
 import { NewTaskButton } from './Button/Button';
 import TaskViewer from './Checklist/TaskViewer';
 import './index.css'
+import { TaskArrayType } from './Data';
 
 function App() {
   const [page, setPage] = useState('today');
@@ -36,9 +37,14 @@ function App() {
 
     allTasks.push(taskWithId);
     localStorage.setItem("tasks", JSON.stringify(allTasks));
-    
-    console.log("Validated Task", task);
+
     setIsCreate(false);
+  }
+
+  const handleTaskEdit = (tasks: TaskArrayType) => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    setIsView(false);
   }
 
   return (
@@ -54,7 +60,11 @@ function App() {
           onId={handleID}
           onView={setIsView}
         />)}
-        {isView && <TaskViewer taskStorageId={taskID} onView={setIsView}/>}
+        {isView && <TaskViewer
+            taskStorageId={taskID}
+            onView={setIsView}
+            onSubmit={handleTaskEdit}
+        />}
         <NewTaskButton isCreate={isCreate} onShow={() => setIsCreate(true)} />
         <Nav onData={handlePage}></Nav>
         {isCreate && <CreateNew onSubmit={handleTaskSubmit} />}

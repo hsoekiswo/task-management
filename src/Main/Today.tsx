@@ -60,7 +60,6 @@ function Today({ onCreate, onId, isView, onView }: TodayProps) {
                 {tasks.map((item, i) => (
                     <>
                         <div className='task-container'>
-                            {/* Tanya soal e.stopPropagation */}
                             <button onClick={(e) => {e.stopPropagation(); onView(!isView); onId(e);}} className='btn-task'>
                                 <input type='checkbox' id={`check` + i}  data-id={item.id} onClick={(e) => {e.stopPropagation();handleCheck(e);}} className='task-checkbox medium-checkbox' />
                                 <label className='task-label text-xl' htmlFor={`check` + i}>

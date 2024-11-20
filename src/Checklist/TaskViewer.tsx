@@ -1,7 +1,15 @@
 import React, { useState } from 'react'
 import './index.css';
+import { TaskArraySchema, TaskArrayType } from '../Data'
+import { z } from "zod";
 
-export default function TaskViewer({ taskStorageId, onView }) {
+type TaskViewerProps = {
+    taskStorageId: number;
+    onView: (data: boolean) => void;
+    onSubmit: (tasks: TaskArrayType) => void;
+};
+
+export default function TaskViewer({ taskStorageId, onView, onSubmit }: TaskViewerProps) {
     interface Task {
         id: number;
         title: string;
@@ -12,9 +20,9 @@ export default function TaskViewer({ taskStorageId, onView }) {
         check: boolean;
     }
 
-    const tasks: [] = JSON.parse(localStorage.getItem('tasks'));
-    const selectedTask: Task[] = tasks.filter((task) => task.id === Number(taskStorageId));
-    const taskIndex: number = tasks.findIndex((task) => task.id === Number(taskStorageId));
+    const tasks: [] = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const selectedTask: Task[] | null = tasks.filter((task: Task) => task.id === Number(taskStorageId));
+    const taskIndex: number | null = tasks.findIndex((task: Task) => task.id === Number(taskStorageId));
     const taskId: number = selectedTask[0].id
     const taskTitle: string = selectedTask[0].title
     const taskDescription: string = selectedTask[0].description
@@ -29,7 +37,8 @@ export default function TaskViewer({ taskStorageId, onView }) {
         date: taskDate,
         priority: taskPriority,
         label: taskLabel
-    })
+    });
+    const [error, setError] = useState<z.ZodError<TaskArrayType> | null >(null);
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = target;
@@ -39,18 +48,24 @@ export default function TaskViewer({ taskStorageId, onView }) {
         }));
     }
 
-    const handleEdit = () => {
-        // Write code here
-        if (taskIndex !== -1) {
-            tasks[taskIndex] = editTask;
+    const handleEdit = (e: React.FormEvent) => {
+        e.preventDefault();
+        tasks[taskIndex] = editTask as Task;
+        const result = TaskArraySchema.safeParse(tasks);
 
-            localStorage.setItem('tasks', JSON.stringify(tasks));
+        if (!result.success) {
+            setError(result.error);
+            console.log(result.error);
+            return;
         }
+
+        onSubmit(result.data);
+            // localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
     const handleDelete = () => {
         if (taskIndex != -1) {
-            const updatedTasks = tasks.filter(task => task.id !== taskId);
+            const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== taskId);
 
             localStorage.setItem('tasks', JSON.stringify(updatedTasks));
         }
@@ -58,9 +73,9 @@ export default function TaskViewer({ taskStorageId, onView }) {
 
     return (
         <div className="form-container container-edit">
-            <form className='flex flex-col'>
+            <form onSubmit={handleEdit} className='flex flex-col'>
                 <div className='flex w-full max-w-screen px-2 justify-between'>
-                    <button type='submit' onClick={handleEdit} className='btn-title-bar'>Save</button>
+                    <button type='submit' className='btn-title-bar'>Save</button>
                     <button onClick={() => onView(false)} className='btn-title-bar'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
@@ -89,6 +104,7 @@ export default function TaskViewer({ taskStorageId, onView }) {
                     <option value="Hobby">Hobby</option>
                 </select>
                 <div className='divider'></div>
+                {error && <p className='text-red-500 p-2'>{error.errors.map(err => err.message).join(", ")}</p>}
                 <div className='btn-delete-container'>
                     <button onClick={handleDelete} className='btn-delete'>Delete</button>
                 </div>

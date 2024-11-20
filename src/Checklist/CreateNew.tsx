@@ -1,19 +1,7 @@
 import React, { useState } from 'react';
 import './index.css';
+import { today, TaskSchema, TaskSchemaType } from '../Data'
 import { z } from "zod";
-
-const today = new Date().toISOString().slice(0, 10);
-const TaskSchema = z.object({
-  id: z.number().default(0),
-  title: z.string().min(5, "Title must be at least 5 characters"),
-  description: z.string(),
-  date: z.string().default(today),
-  priority: z.string().default(""),
-  label: z.string().default(""),
-  check: z.boolean().default(false),
-});
-
-type TaskSchemaType = z.infer<typeof TaskSchema>
 
 export default function CreateNew({ onSubmit }: { onSubmit: (task: TaskSchemaType) => void }) {
   const [newTask, setNewTask] = useState({
@@ -45,15 +33,6 @@ export default function CreateNew({ onSubmit }: { onSubmit: (task: TaskSchemaTyp
     }
 
     onSubmit(result.data);
-
-    // const allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    // const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
-    // const taskWithId = {
-    //   ...newTask,
-    //   id: newId,
-    // }
-    // allTasks.push(taskWithId);
-    // localStorage.setItem('tasks', JSON.stringify(allTasks));
   }
 
   return (
