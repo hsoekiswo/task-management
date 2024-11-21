@@ -4,7 +4,7 @@ import Today from './pages/Today'
 import Calendar from './pages/Calendar';
 import CreateNew from './components/Checklist/CreateNew';
 import { NewTaskButton } from './components/Button/Button';
-import TaskViewer from './components/Checklist/TaskViewer';
+import TaskViewer from './pages/TaskViewer';
 import './index.css'
 import { TaskArrayType } from './Data';
 

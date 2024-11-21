@@ -1,5 +1,5 @@
-import { TodayButton, CalendarButton } from '../components/Button/Button'
-import '../index.css'
+import { TodayButton, CalendarButton } from '../Button/Button'
+import '../../pages/index.css'
 
 type NavProps = {
     onData: (data: string) => void;
