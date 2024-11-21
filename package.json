@@ -14,8 +14,10 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
+    "@hookform/resolvers": "^3.9.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {

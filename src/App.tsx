@@ -62,7 +62,7 @@ function App() {
         <Nav onData={handlePage} />
         {isCreate && <CreateNew
           setIsCreate={setIsCreate}
-          onSubmit={handleTaskSubmit}
+          onTaskSubmit={handleTaskSubmit}
         />}
     </>
   )

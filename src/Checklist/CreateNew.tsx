@@ -1,47 +1,32 @@
-import React, { useState } from 'react';
+// import React from 'react';
 import './index.css';
-import { today, TaskSchema, TaskSchemaType } from '../Data'
-import { z } from "zod";
+import { todayString, TaskSchema, TaskSchemaType } from '../Data'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type CreateNewProps = {
   setIsCreate: (data: boolean) => void;
-  onSubmit: () => void;
+  onTaskSubmit: () => void;
 }
 
-export default function CreateNew({ setIsCreate, onSubmit }: CreateNewProps) {
-  const [newTask, setNewTask] = useState({
-    id: 0,
-    title: "",
-    description: "",
-    date: today,
-    priority: "",
-    label: "",
-    check: false,
-  });
-  const [error, setError] = useState<z.ZodError<TaskSchemaType> | null >(null);
-  
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = target;
-    setNewTask(prevTask => ({
-      ...prevTask,
-      [name]: value,
-    }));
-  }
+export default function CreateNew({ setIsCreate, onTaskSubmit }: CreateNewProps) {
+  const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
+    defaultValues: {
+      id: 0,
+      description: '',
+      date: todayString,
+      priority: '',
+      label: '',
+    },
+    resolver: zodResolver(TaskSchema)
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = TaskSchema.safeParse(newTask);
-
-    if (!result.success) {
-      setError(result.error);
-      return;
-    }
-
+  const onSubmit = (data: TaskSchemaType) => {
+    console.log(`data: ${JSON.stringify(data)}`);
     const allTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
-
     const taskWithId = {
-      ...newTask,
+      ...data,
       id: newId,
     };
 
@@ -49,35 +34,63 @@ export default function CreateNew({ setIsCreate, onSubmit }: CreateNewProps) {
     localStorage.setItem("tasks", JSON.stringify(allTasks));
 
     setIsCreate(false);
-    onSubmit();
+    onTaskSubmit();
   }
+  console.log("errors form", errors);
 
   return (
     <div>
-      <form id="new-task" onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        id="new-task"
+      >
         <div className="form-container">
             <div className="flex flex-col">
-              <input type='text' name='title' value={newTask.title} onChange={handleChange} placeholder="Task Name" className="title" required></input>
-              <textarea name='description' value={newTask.description} onChange={handleChange} placeholder="Description" className="description description-new"></textarea>
+              <input
+                type='text'
+                {...register("title", { required: true })}
+                placeholder="Task Name"
+                className="title"
+                >
+              </input>
+              <textarea
+                {...register("description", { required: false })}
+                placeholder="Description"
+                className="description description-new">
+              </textarea>
             </div>
             <div className="flex flex-row justify-stretch">
-                <input type="date" name='date' value={newTask.date} onChange={handleChange} min={today} className="btn-select"></input>
-                <select name='priority' value={newTask.priority} onChange={handleChange} className="btn-select">
-                  <option value="" disabled>Priority</option>
-                  <option value="Priority1">Priority 1</option>
-                  <option value="Priority2">Priority 2</option>
-                  <option value="Priority3">Priority 3</option>
-                  <option value="Priority4">Priority 4</option>
+                <input
+                  type="date"
+                  min={todayString}
+                  {...register("date", { required: true })}
+                  className="btn-select">
+                </input>
+                <select
+                  {...register("priority", { required: false })}
+                  className="btn-select">
+                  <option value='' disabled>Priority</option>
+                  <option>Priority 1</option>
+                  <option>Priority 2</option>
+                  <option>Priority 3</option>
+                  <option>Priority 4</option>
                 </select>
-                <select name='label' value={newTask.label} onChange={handleChange} className="btn-select">
+                <select
+                  {...register("label", { required: false })}
+                  className="btn-select">
                   <option value="" disabled>Label</option>
-                  <option value="Family">Family</option>
-                  <option value="House">House</option>
-                  <option value="Work">Work</option>
-                  <option value="Hobby">Hobby</option>
+                  <option>Family</option>
+                  <option>House</option>
+                  <option>Work</option>
+                  <option>Hobby</option>
                 </select>
             </div>
-            {error && <p className='text-red-500 p-2'>{error.errors.map(err => err.message).join(", ")}</p>}
+            {
+              errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
+            }
+            {
+              errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
+            }
             <div className="flex justify-end">
               <button type="submit" className="btn-submit">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-9 w-9 text-red-600" viewBox="0 0 16 16">
