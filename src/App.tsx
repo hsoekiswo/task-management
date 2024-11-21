@@ -28,15 +28,9 @@ function App() {
   }
 
   const handleTaskSubmit = () => {
-    setTaskUpdated(prev => !prev); // Toggle taskUpdated to trigger updates in children
+    setTaskUpdated(prev => !prev);
     setIsCreate(false);
   };
-
-  const handleTaskEdit = (tasks: TaskArrayType) => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-
-    setIsView(false);
-  }
 
   return (
     <>
@@ -51,11 +45,15 @@ function App() {
           onCreate={() => setIsCreate(false)} 
           onId={handleID}
           onView={setIsView}
+          taskUpdated={taskUpdated}
         />)}
         {isView && <TaskViewer
             taskStorageId={taskID}
             onView={setIsView}
-            onSubmit={handleTaskEdit}
+            setIsView={setIsView}
+            onSubmit={handleTaskSubmit}
+            // taskUpdated={taskUpdated}
+            // onSubmit={handleTaskEdit}
         />}
         <NewTaskButton
           isCreate={isCreate}

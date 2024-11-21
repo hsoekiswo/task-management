@@ -6,10 +6,11 @@ import { z } from "zod";
 type TaskViewerProps = {
     taskStorageId: number;
     onView: (data: boolean) => void;
-    onSubmit: (tasks: TaskArrayType) => void;
+    setIsView: (data: boolean) => void;
+    onSubmit: () => void;
 };
 
-export default function TaskViewer({ taskStorageId, onView, onSubmit }: TaskViewerProps) {
+export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit }: TaskViewerProps) {
     interface Task {
         id: number;
         title: string;
@@ -59,16 +60,19 @@ export default function TaskViewer({ taskStorageId, onView, onSubmit }: TaskView
             return;
         }
 
-        onSubmit(result.data);
-            // localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        setIsView(false);
+        onSubmit();
     }
 
     const handleDelete = () => {
-        if (taskIndex != -1) {
-            const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== taskId);
-
-            localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        }
+        console.log('handleDelete')
+        console.log(taskIndex)
+        const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== taskId);
+        console.log(updatedTasks);
+        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+        setIsView(false);
+        onSubmit();
     }
 
     return (

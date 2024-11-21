@@ -7,9 +7,10 @@ type CalendarProps = {
     onCreate: (data: boolean) => void;
     onId: (data: React.MouseEvent<HTMLLabelElement>) => void;
     onView: (data: boolean) => void;
+    taskUpdated: boolean;
 };
 
-function Calendar({ onCreate, onId, onView }: CalendarProps) {
+function Calendar({ onCreate, onId, onView, taskUpdated }: CalendarProps) {
     interface Task {
         id: number;
         title: string;
@@ -26,7 +27,7 @@ function Calendar({ onCreate, onId, onView }: CalendarProps) {
         const tasksValue: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
 
         setTasks(tasksValue)
-    }, [setTasks])
+    }, [taskUpdated])
 
     function handleClick() {
         onCreate(true);  // Pass the boolean to onShow

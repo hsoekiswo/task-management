@@ -49,7 +49,6 @@ export default function CreateNew({ setIsCreate, onSubmit }: CreateNewProps) {
     localStorage.setItem("tasks", JSON.stringify(allTasks));
 
     setIsCreate(false);
-
     onSubmit();
   }
 
