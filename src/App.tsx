@@ -51,7 +51,7 @@ function App() {
             taskStorageId={taskID}
             onView={setIsView}
             setIsView={setIsView}
-            onSubmit={handleTaskSubmit}
+            onTaskSubmit={handleTaskSubmit}
             // taskUpdated={taskUpdated}
             // onSubmit={handleTaskEdit}
         />}

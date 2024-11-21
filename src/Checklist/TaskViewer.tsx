@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import './index.css';
-import { TaskArraySchema, TaskArrayType } from '../Data'
+import { todayString, TaskSchema, TaskSchemaType } from '../Data'
 import { z } from "zod";
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type TaskViewerProps = {
     taskStorageId: number;
     onView: (data: boolean) => void;
     setIsView: (data: boolean) => void;
-    onSubmit: () => void;
+    onTaskSubmit: () => void;
 };
 
-export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit }: TaskViewerProps) {
+export default function TaskViewer({ taskStorageId, onView, setIsView, onTaskSubmit }: TaskViewerProps) {
     interface Task {
         id: number;
         title: string;
@@ -22,62 +24,41 @@ export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit 
     }
 
     const tasks: [] = JSON.parse(localStorage.getItem('tasks') || '[]');
-    const selectedTask: Task[] | null = tasks.filter((task: Task) => task.id === Number(taskStorageId));
     const taskIndex: number | null = tasks.findIndex((task: Task) => task.id === Number(taskStorageId));
-    const taskId: number = selectedTask[0].id
-    const taskTitle: string = selectedTask[0].title
-    const taskDescription: string = selectedTask[0].description
-    const taskDate: string = selectedTask[0].date
-    const taskPriority: string = selectedTask[0].priority
-    const taskLabel: string = selectedTask[0].label
+    const selectedTask: Task[] | null = tasks[taskIndex]
 
-    const [editTask, setEditTask] = useState({
-        id: taskId,
-        title: taskTitle,
-        description: taskDescription,
-        date: taskDate,
-        priority: taskPriority,
-        label: taskLabel
-    });
-    const [error, setError] = useState<z.ZodError<TaskArrayType> | null >(null);
+    const modifiedTask = {
+        ...selectedTask,
+        date: new Date(selectedTask.date).toISOString().split('T')[0], // Convert date to yyyy-mm-dd string format
+    };
+    
+    const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
+        defaultValues: modifiedTask,
+        resolver: zodResolver(TaskSchema),
+    })
 
-    const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = target;
-        setEditTask(prevTask => ({
-            ...prevTask,
-            [name]: value
-        }));
-    }
-
-    const handleEdit = (e: React.FormEvent) => {
-        e.preventDefault();
-        tasks[taskIndex] = editTask as Task;
-        const result = TaskArraySchema.safeParse(tasks);
-
-        if (!result.success) {
-            setError(result.error);
-            console.log(result.error);
-            return;
-        }
-
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+    const onSubmit = (data: TaskSchemaType) => {
+        tasks[taskIndex] = data;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
         setIsView(false);
-        onSubmit();
+        onTaskSubmit();
     }
 
     const handleDelete = () => {
-        console.log('handleDelete')
-        console.log(taskIndex)
-        const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== taskId);
+        const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== Number(taskStorageId));
+        console.log(taskStorageId);
         console.log(updatedTasks);
         localStorage.setItem('tasks', JSON.stringify(updatedTasks));
         setIsView(false);
-        onSubmit();
+        onTaskSubmit();
     }
 
     return (
         <div className="form-container container-edit">
-            <form onSubmit={handleEdit} className='flex flex-col'>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className='flex flex-col'
+            >
                 <div className='flex w-full max-w-screen px-2 justify-between'>
                     <button type='submit' className='btn-title-bar'>Save</button>
                     <button onClick={() => onView(false)} className='btn-title-bar'>
@@ -86,13 +67,33 @@ export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit 
                         </svg>
                     </button>
                 </div>
-                <input type='text' name='title' value={editTask.title} onChange={handleChange} placeholder={taskTitle} className="title title-edit"></input>
+                <input
+                    type='text'
+                    // name='title'
+                    // value={editTask.title}
+                    // onChange={handleChange}
+                    {...register("title", { required: true })}
+                    placeholder={selectedTask[0]?.title}
+                    className="title title-edit">
+                </input>
                 <div className='divider'></div>
-                <textarea name='description' value={editTask.description} onChange={handleChange} placeholder={taskDescription && taskDescription.trim() ? taskDescription : 'Description'} className="description description-edit"></textarea>
+                <textarea
+                    {...register("description", { required: true })}
+                    placeholder={selectedTask[0]?.description || 'Description'}
+                    className="description description-edit">
+                </textarea>
                 <div className='divider'></div>
-                <input type='date' placeholder={taskDate} defaultValue={taskDate} className="btn-select btn-select-edit"></input>
+                <input type='date'
+                    min={todayString}
+                    {...register("date", { required: true })}
+                    defaultValue={selectedTask[0]?.date}
+                    className="btn-select btn-select-edit">
+                </input>
                 <div className='divider'></div>
-                <select name='priority' value={editTask.priority} onChange={handleChange} className="btn-select btn-select-edit">
+                <select
+                    {...register("priority", { required: true })}
+                    className="btn-select btn-select-edit"
+                >
                     <option value="" disabled>Priority</option>
                     <option value="Priority1">Priority 1</option>
                     <option value="Priority2">Priority 2</option>
@@ -100,7 +101,10 @@ export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit 
                     <option value="Priority4">Priority 4</option>
                 </select>
                 <div className='divider'></div>
-                <select name='label' value={editTask.label} onChange={handleChange} className="btn-select btn-select-edit">
+                <select
+                    {...register("label", { required: true })}
+                    className="btn-select btn-select-edit"
+                >
                     <option value="" disabled>Label</option>
                     <option value="Family">Family</option>
                     <option value="House">House</option>
@@ -108,9 +112,14 @@ export default function TaskViewer({ taskStorageId, onView, setIsView, onSubmit 
                     <option value="Hobby">Hobby</option>
                 </select>
                 <div className='divider'></div>
-                {error && <p className='text-red-500 p-2'>{error.errors.map(err => err.message).join(", ")}</p>}
+                {
+                errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
+                }
+                {
+                errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
+                }
                 <div className='btn-delete-container'>
-                    <button onClick={handleDelete} className='btn-delete'>Delete</button>
+                    <button type='button' onClick={handleDelete} className='btn-delete'>Delete</button>
                 </div>
             </form>
         </div>
