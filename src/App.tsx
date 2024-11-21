@@ -12,7 +12,8 @@ function App() {
   const [page, setPage] = useState('today');
   const [isCreate, setIsCreate] = useState(false);
   const [isView, setIsView] = useState(false);
-  const [taskID, setTaskID] = useState(0)
+  const [taskID, setTaskID] = useState(0);
+  const [taskUpdated, setTaskUpdated] = useState(false);
 
   const handlePage = (data: string) => {
     setPage(data);
@@ -26,20 +27,10 @@ function App() {
     setTaskID(dataId);
   }
 
-  const handleTaskSubmit = (task: any) => {
-    const allTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-    const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
-
-    const taskWithId = {
-      ...task,
-      id: newId,
-    };
-
-    allTasks.push(taskWithId);
-    localStorage.setItem("tasks", JSON.stringify(allTasks));
-
+  const handleTaskSubmit = () => {
+    setTaskUpdated(prev => !prev); // Toggle taskUpdated to trigger updates in children
     setIsCreate(false);
-  }
+  };
 
   const handleTaskEdit = (tasks: TaskArrayType) => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -54,6 +45,7 @@ function App() {
           onId={handleID}
           isView={isView}
           onView={setIsView}
+          taskUpdated={taskUpdated}
         />)}
         {page === 'calendar' && (<Calendar
           onCreate={() => setIsCreate(false)} 
@@ -65,9 +57,15 @@ function App() {
             onView={setIsView}
             onSubmit={handleTaskEdit}
         />}
-        <NewTaskButton isCreate={isCreate} onShow={() => setIsCreate(true)} />
-        <Nav onData={handlePage}></Nav>
-        {isCreate && <CreateNew onSubmit={handleTaskSubmit} />}
+        <NewTaskButton
+          isCreate={isCreate}
+          onShow={() => setIsCreate(true)}
+        />
+        <Nav onData={handlePage} />
+        {isCreate && <CreateNew
+          setIsCreate={setIsCreate}
+          onSubmit={handleTaskSubmit}
+        />}
     </>
   )
 }

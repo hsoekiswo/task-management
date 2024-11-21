@@ -6,9 +6,10 @@ type TodayProps = {
     onId: (data: React.MouseEvent<HTMLButtonElement>) => void;
     isView: boolean;
     onView: (data: boolean) => void;
+    taskUpdated: boolean;
 };
 
-function Today({ onCreate, onId, isView, onView }: TodayProps) {
+function Today({ onCreate, onId, isView, onView, taskUpdated }: TodayProps) {
     const today = new Date();
     const todayDate = new Date().toISOString().split("T")[0].slice(0, 10);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -33,9 +34,8 @@ function Today({ onCreate, onId, isView, onView }: TodayProps) {
     useEffect(() => {
         const tasksValue: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
         const filteredTasks = tasksValue.filter((task) => (task.date.includes(todayDate)))
-
         setTasks(filteredTasks);
-    }, [setTasks, todayDate]);
+    }, [todayDate, taskUpdated]);
 
     const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checkStatus: boolean = e.target.checked;
@@ -50,7 +50,6 @@ function Today({ onCreate, onId, isView, onView }: TodayProps) {
     }
 
     return (
-        // Tanyain di kelas soal data type
         <main onClick={() => {onCreate(false); onView(false);}}>
             <header>
                 <h1>Today</h1>

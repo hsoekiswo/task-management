@@ -3,7 +3,12 @@ import './index.css';
 import { today, TaskSchema, TaskSchemaType } from '../Data'
 import { z } from "zod";
 
-export default function CreateNew({ onSubmit }: { onSubmit: (task: TaskSchemaType) => void }) {
+type CreateNewProps = {
+  setIsCreate: (data: boolean) => void;
+  onSubmit: () => void;
+}
+
+export default function CreateNew({ setIsCreate, onSubmit }: CreateNewProps) {
   const [newTask, setNewTask] = useState({
     id: 0,
     title: "",
@@ -32,7 +37,20 @@ export default function CreateNew({ onSubmit }: { onSubmit: (task: TaskSchemaTyp
       return;
     }
 
-    onSubmit(result.data);
+    const allTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    const newId = allTasks.length > 0 ? allTasks[allTasks.length - 1].id + 1 : 0;
+
+    const taskWithId = {
+      ...newTask,
+      id: newId,
+    };
+
+    allTasks.push(taskWithId);
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+
+    setIsCreate(false);
+
+    onSubmit();
   }
 
   return (
