@@ -1,4 +1,4 @@
-import { TodayButton, CalendarButton } from '../Button/Button'
+import { TodayButton, CalendarButton } from '../components/Button/Button'
 import '../index.css'
 
 type NavProps = {

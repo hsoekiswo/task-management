@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import Nav from './Nav/Nav'
-import Today from './Main/Today'
-import Calendar from './Main/Calendar';
-import CreateNew from './Checklist/CreateNew';
-import { NewTaskButton } from './Button/Button';
-import TaskViewer from './Checklist/TaskViewer';
+import Nav from './components/Nav/Nav'
+import Today from './pages/Today'
+import Calendar from './pages/Calendar';
+import CreateNew from './components/Checklist/CreateNew';
+import { NewTaskButton } from './components/Button/Button';
+import TaskViewer from './components/Checklist/TaskViewer';
 import './index.css'
 import { TaskArrayType } from './Data';
 
