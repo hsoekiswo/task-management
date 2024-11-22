@@ -33,6 +33,7 @@ export default function Index() {
                                         type='checkbox'
                                         id={`check` + i} 
                                         data-id={item.id}
+                                        onClick={(e) => e.stopPropagation()}
                                         // onClick={(e) => {e.stopPropagation();handleCheck(e);}}
                                         className='task-checkbox medium-checkbox' />
                                     <label className='task-label text-xl' htmlFor={`check` + i}>

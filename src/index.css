@@ -100,7 +100,7 @@
     }
       
     .task-checkbox:checked {
-        @apply bg-red-500 border-white border-8;
+        @apply bg-red-500 border-white border-2;
     }
     
     .task-label {
@@ -196,5 +196,13 @@
 
     .btn-select-edit {
         @apply border-0 focus:outline-none;
+    }
+
+    .small-checkbox {
+        @apply w-3 h-3;
+    }
+    
+    .medium-checkbox {
+        @apply w-4 h-4;
     }
 }

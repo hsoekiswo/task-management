@@ -29,6 +29,7 @@ export default function Calendar() {
                             type='checkbox'
                             id={`check` + task.id}
                             data-id={task.id}
+                            onClick={(e) => e.stopPropagation()}
                             // onClick={(e) => {e.stopPropagation(); handleCheck(e)}}
                             className='task-checkbox small-checkbox'
                         />
