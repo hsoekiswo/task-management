@@ -1,5 +1,5 @@
 import { TodayButton, CalendarButton } from '../Button/Button'
-import '../../pages/index.css'
+import '../../index.css'
 
 type NavProps = {
     onData: (data: string) => void;
@@ -17,14 +17,14 @@ function Nav({ onData }: NavProps) {
     }
 
     return (
-    <aside>
-        <div>
-            <TodayButton onClick={switchToday} />
-        </div>
-        <div>
-            <CalendarButton onClick={switchCalendar} />
-        </div>
-    </aside>
+        <aside>
+            <div>
+                <TodayButton onClick={switchToday} />
+            </div>
+            <div>
+                <CalendarButton onClick={switchCalendar} />
+            </div>
+        </aside>
     )
 }
 

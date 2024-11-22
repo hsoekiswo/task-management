@@ -1,8 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+import Index from './routes/index.tsx';
 import Root from './routes/root';
-import Today from './pages/Today';
-import Calendar from './pages/Calendar';
+import Calendar from './routes/calendar';
+import Task from './routes/task';
+import Create from './routes/create';
 import ErrorPage from './error-page.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
@@ -14,12 +17,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: '/today',
-                element: <Today />,
+                index: true,
+                element: <Index />
             },
             {
                 path: '/calendar',
                 element: <Calendar />,
+            },
+            {
+                path: '/tasks/:taskId',
+                element: <Task />
             }
         ]
     },

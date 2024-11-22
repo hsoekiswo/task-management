@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
-import './index.css';
+import '../index.css';
 
 type CalendarProps = {
     onCreate: (data: boolean) => void;

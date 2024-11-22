@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './index.css'
+import '../index.css';
 
 type TodayProps = {
     onCreate: (data: boolean) => void;
@@ -16,7 +16,6 @@ function Today({ onCreate, onId, isView, onView, taskUpdated }: TodayProps) {
     const month = monthNames[today.getMonth()];
     const day: string = String(today.getDate()).padStart(2, '0');
     const fullDate: string = `${day} ${month}`
-
     const dayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const dayName: string = dayNames[today.getDay()];
 
