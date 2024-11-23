@@ -1,6 +1,7 @@
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { Link } from 'react-router-dom';
+import { getTasks } from '../tasks';
 
 export default function Calendar() {
     interface Task {
@@ -12,15 +13,15 @@ export default function Calendar() {
         label: string;
         check: boolean;
     }
-
-    const tasks: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+    
+    const tasks = getTasks();
 
     const eventContent = (eventInfo) => {
         const task: Task = tasks.find((task) => task.title === eventInfo.event.title);
 
         return (
             <div className='task-container'>
-                <Link to={`/tasks/0`}>
+                <Link to={`/tasks/${task.id}`}>
                     <button
                         // onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}
                         className='btn-task'

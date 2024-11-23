@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { fullDate, dayName, getTasks, getTodayTasks } from "../tasks";
+import { fullDate, dayName, getTodayTasks } from "../tasks";
 import { Link } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';

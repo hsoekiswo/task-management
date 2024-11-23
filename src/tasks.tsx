@@ -39,7 +39,7 @@ export function createTask(data: TaskSchemaType) {
 
 export function getTasks() {
   const tasks = JSON.parse(localStorage.getItem('tasks') ?? '[]');
-  return(tasks)
+  return tasks;
 }
 
 export function getTodayTasks() {
