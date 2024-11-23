@@ -21,3 +21,9 @@ export function createTask(data: TaskSchemaType) {
     allTasks.push(taskWithId);
     localStorage.setItem("tasks", JSON.stringify(allTasks));
 }
+
+export function getTodayTask() {
+  const tasksValue = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+  const filteredTasks = tasksValue.filter((task) => (task.date.includes(todayString)))
+  return(filteredTasks)
+}

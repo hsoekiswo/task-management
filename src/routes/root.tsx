@@ -1,14 +1,21 @@
-import { useState } from 'react'
+import { useState, createContext } from 'react'
 import { createPortal } from 'react-dom';
 import { TodayButton, CalendarButton } from '../components/Button/Button';
 import { Outlet, Link } from 'react-router-dom';
 import Create from './create';
 
+export const UpdateContext = createContext(false);
+
 export default function Root() {
     const [showCreate, setShowCreate] = useState(false);
+    const [taskUpdated, setTaskUpdated] = useState(false);
+
+    const informUpdate = () => {
+        setTaskUpdated(prev => !prev);
+    }
 
     return (
-        <>
+        <UpdateContext.Provider value={taskUpdated}>
             <main onClick={() => setShowCreate(false)}>
                 <Outlet />
                 <div className="new-task-container">
@@ -38,10 +45,11 @@ export default function Root() {
                 {showCreate && createPortal(
                     <Create
                         setShowCreate={setShowCreate}
+                        informUpdate={informUpdate}
                     />,
                     document.body
                 )}
             </div>
-        </>
+        </UpdateContext.Provider>
     )
 }

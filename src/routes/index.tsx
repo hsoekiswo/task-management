@@ -1,5 +1,8 @@
+import { useState, useContext, useEffect } from "react";
 import { fullDate, dayName } from "../tasks";
 import { Link } from "react-router-dom";
+import { UpdateContext } from './root';
+import { todayString } from "../tasks";
 
 export default function Index() {
     interface Task {
@@ -11,7 +14,14 @@ export default function Index() {
         label: string;
         check: boolean;
     }
-    const tasks:Task[] = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const taskUpdated = useContext(UpdateContext);
+
+    useEffect(() => {
+        const tasksValue: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
+        const filteredTasks = tasksValue.filter((task) => (task.date.includes(todayString)))
+        setTasks(filteredTasks);
+    }, [taskUpdated]);
 
     return (
         <>

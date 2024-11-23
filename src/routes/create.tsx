@@ -7,9 +7,10 @@ import { todayString } from '../tasks';
 
 type CreateProps = {
     setShowCreate: (data: boolean) => void;
+    informUpdate: () => void;
   }
 
-export default function Create( { setShowCreate }: CreateProps) {
+export default function Create( { setShowCreate, informUpdate }: CreateProps) {
     const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
         defaultValues: {
             id: 0,
@@ -23,7 +24,8 @@ export default function Create( { setShowCreate }: CreateProps) {
 
     const onSubmit = (data: TaskSchemaType) => {
         createTask(data);
-        setShowCreate(false)
+        setShowCreate(false);
+        informUpdate();
     };
 
     return (
