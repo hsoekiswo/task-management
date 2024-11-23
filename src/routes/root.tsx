@@ -19,10 +19,6 @@ export default function Root() {
                         +
                     </button>
                 </div>
-                {showCreate && createPortal(
-                    <Create />,
-                    document.body
-                )}
             </main>
             <nav>
                 <aside>
@@ -38,6 +34,14 @@ export default function Root() {
                     </div>
                 </aside>
             </nav>
+            <div>
+                {showCreate && createPortal(
+                    <Create
+                        setShowCreate={setShowCreate}
+                    />,
+                    document.body
+                )}
+            </div>
         </>
     )
 }

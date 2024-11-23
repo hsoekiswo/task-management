@@ -1,21 +1,48 @@
-export default function Create() {
+import { Form } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { TaskSchema, TaskSchemaType } from '../schema';
+import { createTask } from '../tasks'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { todayString } from '../tasks';
+
+type CreateProps = {
+    setShowCreate: (data: boolean) => void;
+  }
+
+export default function Create( { setShowCreate }: CreateProps) {
+    const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
+        defaultValues: {
+            id: 0,
+            date: todayString,
+            description: '',
+            priority: '',
+            label: '',
+        },
+        resolver: zodResolver(TaskSchema)
+    })
+
+    const onSubmit = (data: TaskSchemaType) => {
+        createTask(data);
+        setShowCreate(false)
+    };
+
     return (
         <div className="relative z-10">
-            <form
-                // onSubmit={handleSubmit(onSubmit)}
+            <Form
+                onSubmit={handleSubmit(onSubmit)}
                 id="new-task"
             >
                 <div className="form-container">
                     <div className="flex flex-col">
                     <input
                         type='text'
-                        // {...register("title", { required: true })}
+                        {...register("title", { required: true })}
                         placeholder="Task Name"
                         className="title"
                         >
                     </input>
                     <textarea
-                        // {...register("description", { required: false })}
+                        {...register("description", { required: false })}
                         placeholder="Description"
                         className="description description-new">
                     </textarea>
@@ -23,12 +50,12 @@ export default function Create() {
                     <div className="flex flex-row justify-stretch">
                         <input
                         type="date"
-                        // min={todayString}
-                        // {...register("date", { required: true })}
+                        min={todayString}
+                        {...register("date", { required: true })}
                         className="btn-select">
                         </input>
                         <select
-                        // {...register("priority", { required: false })}
+                        {...register("priority", { required: false })}
                         className="btn-select">
                         <option value='' disabled>Priority</option>
                         <option>Priority 1</option>
@@ -37,7 +64,7 @@ export default function Create() {
                         <option>Priority 4</option>
                         </select>
                         <select
-                        // {...register("label", { required: false })}
+                        {...register("label", { required: false })}
                         className="btn-select">
                         <option value="" disabled>Label</option>
                         <option>Family</option>
@@ -46,12 +73,12 @@ export default function Create() {
                         <option>Hobby</option>
                         </select>
                     </div>
-                    {/* {
+                    {
                     errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
                     }
                     {
                     errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
-                    } */}
+                    }
                     <div className="flex justify-end">
                     <button type="submit" className="btn-submit">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-9 w-9 text-red-600" viewBox="0 0 16 16">
@@ -60,7 +87,7 @@ export default function Create() {
                     </button>
                     </div>
                 </div>
-            </form>
+            </Form>
         </div>
     )
 }
