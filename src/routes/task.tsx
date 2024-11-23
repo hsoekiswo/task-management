@@ -1,44 +1,40 @@
-import {TaskSchema, TaskSchemaType} from '../schema';
-// import { todayString } from '../tasks';
+import { useParams, Form, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, useNavigate } from 'react-router-dom';
+import { TaskSchema, TaskSchemaType } from '../schema';
+import { getTaskById, updateTask, todayString, deleteTask } from '../tasks';
 
 export default function Task() {
+    const { taskId } = useParams<{ taskId: string }>();
     const navigate = useNavigate();
 
-    interface Task {
-        id: number;
-        title: string;
-        description: string;
-        date: string;
-        priority: string;
-        label: string;
-        check: boolean;
-    }
+    const selectedTask = taskId ? getTaskById(Number(taskId)) : undefined;
 
-    const tasks: [] = JSON.parse(localStorage.getItem('tasks') || '[]');
-    const taskIndex: number | null = tasks.findIndex((task: Task) => task.id === Number(0));
-    const selectedTask: Task[] | null = tasks[taskIndex]
-
-    // const modifiedTask = {
-    //     ...selectedTask,
-    //     date: new Date(selectedTask?.date).toISOString().split('T')[0], // Convert date to yyyy-mm-dd string format
-    // };
-
-    const { register } = useForm<TaskSchemaType>({
+    const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
         defaultValues: selectedTask,
         resolver: zodResolver(TaskSchema),
-    });
+    })
 
     const handleClose = () => {
         navigate(-1);
     }
 
+    const onSubmit = (data: TaskSchemaType) => {
+        if (taskId) {
+            updateTask(data, Number(taskId));
+            handleClose();
+        }
+    }
+
+    const handleDelete = () => {
+        deleteTask(Number(taskId));
+        handleClose();
+    }
+
     return (
         <div className="form-container container-edit">
             <Form
-                // onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
                 className='flex flex-col'
             >
                 <div className='flex w-full max-w-screen px-2 justify-between'>
@@ -49,7 +45,6 @@ export default function Task() {
                         Save
                     </button>
                     <button
-                        // onClick={() => onView(false)}
                         onClick={handleClose}
                         className='btn-title-bar'
                     >
@@ -61,20 +56,18 @@ export default function Task() {
                 <input
                     type='text'
                     {...register("title", { required: true })}
-                    // placeholder={selectedTask[0]?.title}
                     className="title title-edit">
                 </input>
                 <div className='divider'></div>
                 <textarea
                     {...register("description", { required: true })}
-                    // placeholder={selectedTask[0]?.description || 'Description'}
+                    placeholder={selectedTask[0]?.description || 'Description'}
                     className="description description-edit">
                 </textarea>
                 <div className='divider'></div>
                 <input type='date'
-                    // min={todayString}
+                    min={todayString}
                     {...register("date", { required: true })}
-                    // defaultValue={selectedTask[0]?.date}
                     className="btn-select btn-select-edit">
                 </input>
                 <div className='divider'></div>
@@ -100,16 +93,16 @@ export default function Task() {
                     <option value="Hobby">Hobby</option>
                 </select>
                 <div className='divider'></div>
-                {/* {
+                {
                 errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
                 }
                 {
                 errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
-                } */}
+                }
                 <div className='btn-delete-container'>
                     <button
                         type='button'
-                        // onClick={handleDelete}
+                        onClick={handleDelete}
                         className='btn-delete'
                     >
                         Delete

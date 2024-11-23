@@ -1,8 +1,13 @@
 import { useState, useContext, useEffect } from "react";
-import { fullDate, dayName } from "../tasks";
+import { fullDate, dayName, getTasks, getTodayTasks } from "../tasks";
 import { Link } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';
-import { todayString } from "../tasks";
+
+export function loader() {
+    const tasks = getTodayTasks();
+    return { tasks };
+}
 
 export default function Index() {
     interface Task {
@@ -14,13 +19,13 @@ export default function Index() {
         label: string;
         check: boolean;
     }
-    const [tasks, setTasks] = useState<Task[]>([]);
+    const {tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
+    const [tasks, setTasks] = useState<Task[]>(initialTasks || []);
     const taskUpdated = useContext(UpdateContext);
 
     useEffect(() => {
-        const tasksValue: Task[] = JSON.parse(localStorage.getItem('tasks') ?? '[]');
-        const filteredTasks = tasksValue.filter((task) => (task.date.includes(todayString)))
-        setTasks(filteredTasks);
+        const updatedTasks = getTodayTasks();
+        setTasks(updatedTasks);
     }, [taskUpdated]);
 
     return (
@@ -30,31 +35,31 @@ export default function Index() {
                 <h2>{fullDate} • {dayName}</h2>
             </header>
             <div>
-                {tasks.map((item, i) => (
-                    <>
-                        <Link to={`tasks/0`}>
-                        <div className='task-container'>
-                                <button
-                                    // onClick={(e) => {e.stopPropagation();
-                                    // onView(!isView); onId(e);}}
-                                    className='btn-task'
+                {tasks.map((task, i) => (
+                    <div key={task.id}>
+                        <Link to={`tasks/${task.id}`} className='task-container'>
+                            {/* <div > */}
+                            <button
+                                // onClick={(e) => {e.stopPropagation();
+                                // onView(!isView); onId(e);}}
+                                className='btn-task'
                                 >
-                                    <input
-                                        type='checkbox'
-                                        id={`check` + i} 
-                                        data-id={item.id}
-                                        onClick={(e) => e.stopPropagation()}
-                                        // onClick={(e) => {e.stopPropagation();handleCheck(e);}}
-                                        className='task-checkbox medium-checkbox' />
-                                    <label className='task-label text-xl' htmlFor={`check` + i}>
-                                        {item.title}
-                                    </label>
-                                    <div className='tag'>{item.label}</div>
-                                </button>
-                        </div>
+                                <input
+                                    type='checkbox'
+                                    id={`check-${i}`} 
+                                    data-id={task.id}
+                                    onClick={(e) => e.stopPropagation()}
+                                    // onClick={(e) => {e.stopPropagation();handleCheck(e);}}
+                                    className='task-checkbox medium-checkbox' />
+                                <label className='task-label text-xl' htmlFor={`check` + i}>
+                                    {task.title}
+                                </label>
+                                <div className='tag'>{task.label}</div>
+                            </button>
+                            {/* </div> */}
                         </Link>
                         <div className="divider"></div>
-                    </>
+                    </div>
                 ))}
             </div>
         </>
