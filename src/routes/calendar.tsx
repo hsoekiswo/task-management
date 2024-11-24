@@ -1,7 +1,14 @@
+import { useState, useContext, useEffect } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
-import { Link } from 'react-router-dom';
+import { UpdateContext } from './root';
 import { getTasks } from '../tasks';
+
+export function loader() {
+    const tasks = getTasks();
+    return { tasks }
+}
 
 export default function Calendar() {
     interface Task {
@@ -13,8 +20,14 @@ export default function Calendar() {
         label: string;
         check: boolean;
     }
-    
-    const tasks = getTasks();
+    const { tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
+    const [tasks, setTasks] = useState<Task[]>(initialTasks || []);
+    const taskUpdated = useContext(UpdateContext);
+
+    useEffect(() => {
+        const updatedTasks = getTasks();
+        setTasks(updatedTasks);
+    }, [taskUpdated]);
 
     const eventContent = (eventInfo) => {
         const task: Task = tasks.find((task) => task.title === eventInfo.event.title);
