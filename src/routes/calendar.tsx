@@ -1,9 +1,9 @@
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
-import { getTasks } from '../tasks';
+import { getTasks, getCheckStatus, checkTask } from '../tasks';
 
 export function loader() {
     const tasks = getTasks();
@@ -29,6 +29,11 @@ export default function Calendar() {
         setTasks(updatedTasks);
     }, [taskUpdated]);
 
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checkObject = getCheckStatus(e);
+        checkTask(checkObject);
+    }
+
     const eventContent = (eventInfo) => {
         const task: Task = tasks.find((task) => task.title === eventInfo.event.title);
 
@@ -43,8 +48,7 @@ export default function Calendar() {
                             type='checkbox'
                             id={`check` + task.id}
                             data-id={task.id}
-                            onClick={(e) => e.stopPropagation()}
-                            // onClick={(e) => {e.stopPropagation(); handleCheck(e)}}
+                            onClick={(e) => {e.stopPropagation(); handleCheck(e)}}
                             className='task-checkbox small-checkbox'
                         />
                         <label htmlFor={`check` + task.id} className='task-label text-lg'>{eventInfo.event.title}</label>

@@ -1,5 +1,5 @@
-import { useState, useContext, useEffect } from "react";
-import { fullDate, dayName, getTodayTasks } from "../tasks";
+import React, { useState, useContext, useEffect } from "react";
+import { fullDate, dayName, getTodayTasks, getCheckStatus, checkTask } from "../tasks";
 import { Link } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';
@@ -28,6 +28,11 @@ export default function Index() {
         setTasks(updatedTasks);
     }, [taskUpdated]);
 
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checkObject = getCheckStatus(e);
+        checkTask(checkObject);
+    }
+
     return (
         <>
             <header>
@@ -48,8 +53,10 @@ export default function Index() {
                                     type='checkbox'
                                     id={`check-${i}`} 
                                     data-id={task.id}
-                                    onClick={(e) => e.stopPropagation()}
-                                    // onClick={(e) => {e.stopPropagation();handleCheck(e);}}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleCheck(e);
+                                    }}
                                     className='task-checkbox medium-checkbox' />
                                 <label className='task-label text-xl' htmlFor={`check` + i}>
                                     {task.title}

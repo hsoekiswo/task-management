@@ -72,3 +72,23 @@ export function deleteTask(taskId: number) {
   const updatedTasks: Task[] = tasks.filter((task: Task) => task.id !== Number(taskId));
   localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 }
+
+export function getCheckStatus(e: React.ChangeEvent<HTMLInputElement>) {
+  const checkStatus: boolean = e.target.checked;
+  const dataId: string = e.target.getAttribute('data-id');
+  const checkObject = {
+    'checkStatus': checkStatus,
+    'dataId': dataId
+  }
+  return checkObject;
+}
+
+export function checkTask(checkObject: object) {
+  const tasks = getTasks();
+  const taskIndex: number = tasks.findIndex(task => task.id === Number(checkObject.dataId));
+  if (taskIndex !== -1) {
+      tasks[taskIndex].check = checkObject.checkStatus;
+  }
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
