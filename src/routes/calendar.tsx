@@ -35,27 +35,28 @@ export default function Calendar() {
         checkTask(checkObject);
     }
 
-    const openTask = (taskId) => {
+    const openTask = (taskId: number) => {
         navigate(`/tasks/${taskId}`, { state: { from: '/calendar' } });
     };
 
-    const eventContent = (eventInfo) => {
-        const task: Task = tasks.find((task) => task.title === eventInfo.event.title);
+    const eventContent = (eventInfo: { event: { title: string | number | boolean | React.ReactElement<string> | Iterable<React.ReactNode> | null | undefined; }; }) => {
+        const task: Task | undefined = tasks.find((task) => task.title === eventInfo.event.title);
 
         return (
             <div className='task-container'>
                     <button
-                        onClick={() => openTask(task.id)}
+                        onClick={() => task && openTask(task.id)}
                         className='btn-task'
                     >
                         <input
                             type='checkbox'
-                            id={`check` + task.id}
-                            data-id={task.id}
-                            onClick={(e) => {e.stopPropagation(); handleCheck(e)}}
+                            id={`check` + task?.id}
+                            data-id={task?.id}
+                            onChange={handleCheck}
+                            onClick={(e) => {e.stopPropagation()}}
                             className='task-checkbox small-checkbox'
                         />
-                        <label htmlFor={`check` + task.id} className='task-label text-lg'>{eventInfo.event.title}</label>
+                        <label htmlFor={`check` + task?.id} className='task-label text-lg'>{eventInfo.event.title}</label>
                     </button>
             </div>
         );

@@ -45,7 +45,6 @@ export default function Root() {
                     </div>
                     <div className='nav-btn-container'>
                         <NavLink
-                            // className='btn-aside'
                             className={({ isActive, isPending }) =>
                                 isActive
                                     ? "active"

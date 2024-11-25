@@ -28,12 +28,12 @@ export default function Index() {
         setTasks(updatedTasks);
     }, [taskUpdated]);
 
-    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement, MouseEvent>) => {
         const checkObject = getCheckStatus(e);
         checkTask(checkObject);
     }
 
-    const openTask = (taskId) => {
+    const openTask = (taskId: number) => {
         navigate(`/tasks/${taskId}`, { state: { from: '/' } });
     };
 
@@ -54,10 +54,8 @@ export default function Index() {
                                 type='checkbox'
                                 id={`check-${i}`} 
                                 data-id={task.id}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleCheck(e);
-                                }}
+                                onChange={handleCheck}
+                                onClick={(e) => e.stopPropagation()}
                                 className='task-checkbox medium-checkbox' />
                             <label className='task-label text-xl' htmlFor={`check` + i}>
                                 {task.title}

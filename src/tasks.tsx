@@ -1,3 +1,4 @@
+import React from 'react';
 import { TaskSchemaType } from './schema';
 
 export const today = new Date();
@@ -19,7 +20,7 @@ interface Task {
   id: number;
   title: string;
   description: string;
-  date: string;
+  date: string | Date;
   priority: string;
   label: string;
   check: boolean;
@@ -44,14 +45,14 @@ export function getTasks() {
 
 export function getTodayTasks() {
   const tasks = JSON.parse(localStorage.getItem('tasks') ?? '[]');
-  const filteredTasks = tasks.filter((task: Task) => (task.date.includes(todayString)))
+  const filteredTasks = tasks.filter((task: Task) => ((task.date as string).includes(todayString)))
   return filteredTasks;
 }
 
 export function getTaskById(taskId: number) {
   const tasks: [] = JSON.parse(localStorage.getItem('tasks') || '[]');
   const taskIndex: number | null = tasks.findIndex((task: Task) => task.id === taskId);
-  const selectedTask: Task[] | null = tasks[taskIndex]
+  const selectedTask: Task[] | null = tasks[taskIndex] ?? null;
 
   // Update date type from Date to string so HTML can show as placeholder
   const modifiedTask = {
@@ -62,7 +63,7 @@ export function getTaskById(taskId: number) {
 }
 
 export function updateTask(data: TaskSchemaType, taskId: number) {
-  const tasks: [] = JSON.parse(localStorage.getItem('tasks') || '[]');
+  const tasks: Task[] = JSON.parse(localStorage.getItem('tasks') || '[]');
   tasks[taskId] = data;
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
@@ -73,9 +74,9 @@ export function deleteTask(taskId: number) {
   localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 }
 
-export function getCheckStatus(e: React.ChangeEvent<HTMLInputElement>) {
-  const checkStatus: boolean = e.target.checked;
-  const dataId: string = e.target.getAttribute('data-id');
+export function getCheckStatus(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement, MouseEvent>) {
+  const checkStatus: boolean = (e.target as HTMLInputElement).checked;
+  const dataId: string | null = (e.target as HTMLElement).getAttribute('data-id');
   const checkObject = {
     'checkStatus': checkStatus,
     'dataId': dataId
@@ -83,8 +84,13 @@ export function getCheckStatus(e: React.ChangeEvent<HTMLInputElement>) {
   return checkObject;
 }
 
-export function checkTask(checkObject: object) {
-  const tasks = getTasks();
+interface CheckObject {
+  dataId: string | null;
+  checkStatus: boolean;
+}
+
+export function checkTask(checkObject: CheckObject) {
+  const tasks: Task[] = getTasks();
   const taskIndex: number = tasks.findIndex(task => task.id === Number(checkObject.dataId));
   if (taskIndex !== -1) {
       tasks[taskIndex].check = checkObject.checkStatus;
