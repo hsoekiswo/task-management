@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
-import { getTasks, getCheckStatus, checkTask } from '../tasks';
+import { getTasks, getCheckStatus, checkTask, todayString } from '../tasks';
 
 export function loader() {
     const tasks = getTasks();
@@ -44,7 +44,6 @@ export default function Calendar() {
 
         return (
             <div className='task-container'>
-                {/* <Link to={`/tasks/${task.id}`}> */}
                     <button
                         onClick={() => openTask(task.id)}
                         className='btn-task'
@@ -58,7 +57,6 @@ export default function Calendar() {
                         />
                         <label htmlFor={`check` + task.id} className='task-label text-lg'>{eventInfo.event.title}</label>
                     </button>
-                {/* </Link> */}
             </div>
         );
     };
@@ -68,6 +66,9 @@ export default function Calendar() {
         initialView:"listWeek",
         weekends:true,
         height:500,
+        validRange: {
+            start: todayString
+        },
         events:tasks.map((task) => ({
             id: task.id,
             title: task.title,
