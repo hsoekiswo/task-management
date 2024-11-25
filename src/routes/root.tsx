@@ -1,6 +1,6 @@
 import { useState, createContext } from 'react'
 import { createPortal } from 'react-dom';
-import { TodayButton, CalendarButton } from '../components/Button/Button';
+import { TodayButton, CalendarButton } from '../components/index';
 import { Outlet, Link } from 'react-router-dom';
 import Create from './create';
 
