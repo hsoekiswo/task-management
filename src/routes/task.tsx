@@ -1,4 +1,4 @@
-import { useParams, Form, useNavigate } from 'react-router-dom';
+import { useParams, Form, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TaskSchema, TaskSchemaType } from '../schema';
@@ -7,6 +7,7 @@ import { getTaskById, updateTask, todayString, deleteTask } from '../tasks';
 export default function Task() {
     const { taskId } = useParams<{ taskId: string }>();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const selectedTask = taskId ? getTaskById(Number(taskId)) : undefined;
 
@@ -16,7 +17,8 @@ export default function Task() {
     })
 
     const handleClose = () => {
-        navigate(-1);
+        const from = location.state?.from || '/'
+        navigate(from);
     }
 
     const onSubmit = (data: TaskSchemaType) => {

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
@@ -23,6 +23,7 @@ export default function Calendar() {
     const { tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
     const [tasks, setTasks] = useState<Task[]>(initialTasks || []);
     const taskUpdated = useContext(UpdateContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const updatedTasks = getTasks();
@@ -34,14 +35,18 @@ export default function Calendar() {
         checkTask(checkObject);
     }
 
+    const openTask = (taskId) => {
+        navigate(`/tasks/${taskId}`, { state: { from: '/calendar' } });
+    };
+
     const eventContent = (eventInfo) => {
         const task: Task = tasks.find((task) => task.title === eventInfo.event.title);
 
         return (
             <div className='task-container'>
-                <Link to={`/tasks/${task.id}`}>
+                {/* <Link to={`/tasks/${task.id}`}> */}
                     <button
-                        // onClick={(e) => {e.stopPropagation(); onView(true); onId(e);}}
+                        onClick={() => openTask(task.id)}
                         className='btn-task'
                     >
                         <input
@@ -53,7 +58,7 @@ export default function Calendar() {
                         />
                         <label htmlFor={`check` + task.id} className='task-label text-lg'>{eventInfo.event.title}</label>
                     </button>
-                </Link>
+                {/* </Link> */}
             </div>
         );
     };

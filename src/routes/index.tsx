@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { fullDate, dayName, getTodayTasks, getCheckStatus, checkTask } from "../tasks";
-import { Link } from "react-router-dom";
-import { useLoaderData } from "react-router-dom";
+import { Link, useNavigate, useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';
+import { fullDate, dayName, getTodayTasks, getCheckStatus, checkTask } from "../tasks";
 
 export function loader() {
     const tasks = getTodayTasks();
@@ -19,9 +18,10 @@ export default function Index() {
         label: string;
         check: boolean;
     }
+    const taskUpdated = useContext(UpdateContext);
     const {tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
     const [tasks, setTasks] = useState<Task[]>(initialTasks || []);
-    const taskUpdated = useContext(UpdateContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const updatedTasks = getTodayTasks();
@@ -33,6 +33,10 @@ export default function Index() {
         checkTask(checkObject);
     }
 
+    const openTask = (taskId) => {
+        navigate(`/tasks/${taskId}`, { state: { from: '/' } });
+    };
+
     return (
         <>
             <header>
@@ -42,11 +46,10 @@ export default function Index() {
             <div>
                 {tasks.map((task, i) => (
                     <div key={task.id}>
-                        <Link to={`tasks/${task.id}`} className='task-container'>
-                            {/* <div > */}
+                        {/* <Link to={`tasks/${task.id}`} className='task-container'> */}
+                            <div className='task-container'>
                             <button
-                                // onClick={(e) => {e.stopPropagation();
-                                // onView(!isView); onId(e);}}
+                                onClick={() => openTask(task.id)}
                                 className='btn-task'
                                 >
                                 <input
@@ -63,8 +66,8 @@ export default function Index() {
                                 </label>
                                 <div className='tag'>{task.label}</div>
                             </button>
-                            {/* </div> */}
-                        </Link>
+                            </div>
+                        {/* </Link> */}
                         <div className="divider"></div>
                     </div>
                 ))}
