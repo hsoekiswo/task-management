@@ -121,8 +121,12 @@
         @apply w-full h-full flex justify-center;
     }
 
-    .btn-aside {
+    .nav-btn-container a {
         @apply border border-solid border-gray-700 w-full h-full flex justify-center items-center;
+    }
+
+    .nav-btn-container a.active {
+        @apply border-red-300 bg-red-100;
     }
 
     .new-task-container {

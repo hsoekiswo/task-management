@@ -1,7 +1,7 @@
 import { useState, createContext } from 'react'
 import { createPortal } from 'react-dom';
 import { TodayButton, CalendarButton } from '../components/Button/index';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import Create from './create';
 
 export const UpdateContext = createContext(false);
@@ -29,15 +29,33 @@ export default function Root() {
             </main>
             <nav>
                 <aside>
-                    <div>
-                        <Link className='btn-aside' to={``}>
+                    <div className='nav-btn-container'>
+                        <NavLink
+                            // className='btn-aside'
+                            className={({ isActive, isPending }) =>
+                                isActive
+                                    ? "active"
+                                    : isPending
+                                    ? "pending"
+                                    : ""
+                            }
+                            to={``}>
                             <TodayButton />
-                        </Link>
+                        </NavLink>
                     </div>
-                    <div>
-                        <Link className='btn-aside' to={`calendar`}>
+                    <div className='nav-btn-container'>
+                        <NavLink
+                            // className='btn-aside'
+                            className={({ isActive, isPending }) =>
+                                isActive
+                                    ? "active"
+                                    : isPending
+                                    ? "pending"
+                                    : ""
+                            }
+                            to={`calendar`}>
                             <CalendarButton />
-                        </Link>
+                        </NavLink>
                     </div>
                 </aside>
             </nav>
