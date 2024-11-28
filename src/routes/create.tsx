@@ -11,7 +11,7 @@ type CreateProps = {
   }
 
 export default function Create( { setShowCreate, informUpdate }: CreateProps) {
-    const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<TaskSchemaType>({
         defaultValues: {
             id: 0,
             date: todayString,
@@ -27,6 +27,12 @@ export default function Create( { setShowCreate, informUpdate }: CreateProps) {
         setShowCreate(false);
         informUpdate();
     };
+
+     // Watch all form values
+     const { title, date } = watch();
+
+    // Check if any required field is empty
+    const isFormEmpty = !title?.trim() || !date?.toString().trim();
 
     return (
         <div className="relative z-10">
@@ -82,11 +88,11 @@ export default function Create( { setShowCreate, informUpdate }: CreateProps) {
                     errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
                     }
                     <div className="flex justify-end">
-                    <button type="submit" className="btn-submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="h-9 w-9 text-red-600" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
-                    </svg>
-                    </button>
+                    <button type="submit" disabled={isFormEmpty} className={`${isFormEmpty ? 'btn-submit-deact' : 'btn-submit'}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className={`${isFormEmpty ? 'icon-submit-deact' : 'icon-submit'}`} viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+                        </svg>
+                        </button>
                     </div>
                 </div>
             </Form>

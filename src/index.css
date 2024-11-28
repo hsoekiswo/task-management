@@ -87,6 +87,18 @@
         @apply text-3xl mt-3 mb-4 mr-6 rounded-full;
     }
 
+    .btn-submit-deact {
+        @apply bg-gray-600 text-3xl mt-3 mb-4 mr-6 rounded-full;
+    }
+
+    .icon-submit {
+        @apply h-9 w-9 text-red-600;
+    }
+
+    .icon-submit-deact {
+        @apply h-9 w-9 text-gray-400;
+    }
+
     .task-container {
         @apply flex items-center space-x-2;
     }
