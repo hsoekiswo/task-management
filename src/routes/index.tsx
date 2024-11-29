@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';
-import { getTodayTasks, getCheckStatus, checkTask } from "../constant/tasks";
-import { fullDate, dayName } from "../constant/date";
+import { getTodayTasks, getCheckStatus, checkTask } from "../utils/tasks";
+import { fullDate, dayName } from "../utils/date";
 import { Task } from '../constant/type'
 
 export function loader() {

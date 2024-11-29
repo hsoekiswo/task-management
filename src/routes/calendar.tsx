@@ -3,8 +3,8 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
-import { getTasks, getCheckStatus, checkTask } from '../constant/tasks';
-import { todayString } from '../constant/date';
+import { getTasks, getCheckStatus, checkTask } from '../utils/tasks';
+import { todayString } from '../utils/date';
 import { Task } from '../constant/type'
 
 export function loader() {
