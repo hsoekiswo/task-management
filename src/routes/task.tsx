@@ -22,9 +22,11 @@ export default function Task() {
 
     const formValues = watch();
     // Check if at least one input is filled
+    const { title } = watch();
     const isFormChanged = Object.keys(selectedTask).some(
         (key) => formValues[key as keyof TaskSchemaType] !== selectedTask[key as keyof TaskSchemaType]
     );
+    const isChangeValid = isFormChanged && title.length > 5;
 
     const handleClose = () => {
         const from = location.state?.from || '/'
@@ -55,7 +57,7 @@ export default function Task() {
                 <div className='flex w-full max-w-screen px-2 justify-between'>
                     <button
                         type='submit'
-                        className={`${isFormChanged ? 'btn-title-bar' : 'btn-title-bar-deact'}`}
+                        className={`${isChangeValid ? 'btn-title-bar' : 'btn-title-bar-deact'}`}
                     >
                         Save
                     </button>

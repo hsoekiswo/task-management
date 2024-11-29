@@ -29,8 +29,8 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
         informUpdate();
     };
 
-     // Watch all form values
-     const { title, date } = watch();
+    // Watch all form values
+    const { title, date } = watch();
 
     // Check if any required field is empty
     const isFormEmpty = !title?.trim() || !date?.toString().trim() || title.length < 5;
