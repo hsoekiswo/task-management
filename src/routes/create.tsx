@@ -33,12 +33,15 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
      const { title, date } = watch();
 
     // Check if any required field is empty
-    const isFormEmpty = !title?.trim() || !date?.toString().trim();
+    const isFormEmpty = !title?.trim() || !date?.toString().trim() || title.length < 5;
 
     return (
         <div className="relative z-10">
             <Form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit((data) => {
+                    onSubmit(data);
+                    onNotify();
+                })}
                 id="new-task"
             >
                 <div className="form-container">
@@ -93,7 +96,6 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
                         type="submit"
                         disabled={isFormEmpty}
                         className={`${isFormEmpty ? 'btn-submit-deact' : 'btn-submit'}`}
-                        onClick={onNotify}
                         >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className={`${isFormEmpty ? 'icon-submit-deact' : 'icon-submit'}`} viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
