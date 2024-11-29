@@ -46,6 +46,15 @@ export default function Calendar() {
         );
     };
 
+    const eventTask = tasks.map((task) => ({
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        date: task.date,
+        priority: task.priority,
+        label: task.label
+    }))
+
     const calendarOptions = {
         plugins:[ listPlugin ],
         initialView:"listWeek",
@@ -54,14 +63,7 @@ export default function Calendar() {
         validRange: {
             start: todayString
         },
-        events:tasks.map((task) => ({
-            id: task.id,
-            title: task.title,
-            description: task.description,
-            date: task.date,
-            priority: task.priority,
-            label: task.label
-        })),
+        events: eventTask,
         eventContent
     }
 
