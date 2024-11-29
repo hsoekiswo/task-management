@@ -4,6 +4,7 @@ import { UpdateContext } from './root';
 import { getTodayTasks, getCheckStatus, checkTask } from "../utils/tasks";
 import { fullDate, dayName } from "../utils/date";
 import { Task } from '../constant/type'
+import { TaskButton } from '../components/Button/index'
 
 export function loader() {
     const tasks = getTodayTasks();
@@ -37,27 +38,18 @@ export default function Index() {
                 <h2>{fullDate} • {dayName}</h2>
             </header>
             <div>
-                {tasks.map((task, i) => (
-                    <div key={task.id} className='task-container'>
-                        <button
-                            onClick={() => openTask(task.id)}
-                            className='btn-task'
-                            >
-                            <input
-                                type='checkbox'
-                                id={`check-${i}`} 
-                                data-id={task.id}
-                                onChange={handleCheck}
-                                onClick={(e) => e.stopPropagation()}
-                                className='task-checkbox medium-checkbox' />
-                            <label className='task-label text-xl' htmlFor={`check` + i}>
-                                {task.title}
-                            </label>
-                            <div className='tag'>{task.label}</div>
-                        </button>
-                        <div className="divider"></div>
-                    </div>
-                ))}
+            {tasks.map((task) => (
+                <div key={task.id} className="task-container">
+                <TaskButton
+                    id={task.id}
+                    title={task.title}
+                    label={task.label}
+                    onOpen={openTask}
+                    onCheck={handleCheck}
+                />
+                <div className="divider"></div>
+                </div>
+            ))}
             </div>
         </>
     )

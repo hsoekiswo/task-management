@@ -1,4 +1,5 @@
 import '../../index.css'
+import { Task, EventInfoProps } from '../../constant/type'
 
 export function TodayButton() {
   return (
@@ -21,3 +22,54 @@ export function CalendarButton() {
     </button>
   )
 }
+
+export function TaskButton({ id, title, label, onOpen, onCheck }) {
+  return (
+    <button onClick={() => onOpen(id)} className="btn-task">
+      <input
+        type="checkbox"
+        id={`check-${id}`}
+        data-id={id}
+        onChange={onCheck}
+        onClick={(e) => e.stopPropagation()}
+        className="task-checkbox medium-checkbox"
+      />
+      <label className="task-label text-xl" htmlFor={`check-${id}`}>
+        {title}
+      </label>
+      <div className="tag">{label}</div>
+    </button>
+  )
+};
+
+export function EventContent({ eventInfo, tasks, onTaskOpen, onTaskCheck }: EventInfoProps) {
+  const task: Task | undefined = tasks.find(
+    (task) => task.title === eventInfo.event.title
+  );
+
+  if (!task) return null; // If no task matches, return null
+
+  return (
+    <div className="task-container">
+      <button
+        onClick={() => onTaskOpen(task.id.toString())}
+        className="btn-task"
+      >
+        <input
+          type="checkbox"
+          id={`check${task.id}`}
+          data-id={task.id}
+          onChange={onTaskCheck}
+          onClick={(e) => e.stopPropagation()}
+          className="task-checkbox small-checkbox"
+        />
+        <label
+          htmlFor={`check${task.id}`}
+          className="task-label text-lg"
+        >
+          {eventInfo.event.title}
+        </label>
+      </button>
+    </div>
+  );
+};
