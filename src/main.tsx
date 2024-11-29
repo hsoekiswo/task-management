@@ -4,7 +4,7 @@ import Root from './routes/root';
 import Index, { loader as indexLoader } from './routes/index.tsx';
 import Calendar, { loader as calendarLoader } from './routes/calendar';
 import Task from './routes/task';
-import ErrorPage from './error-page.tsx';
+import ErrorPage from './routes/error-page.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
 
