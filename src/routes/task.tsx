@@ -11,27 +11,33 @@ export default function Task() {
 
     const selectedTask = taskId ? getTaskById(Number(taskId)) : undefined;
 
-    const { register, handleSubmit, formState: { errors } } = useForm<TaskSchemaType>({
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<TaskSchemaType>({
         defaultValues: selectedTask,
         resolver: zodResolver(TaskSchema),
-    })
+    });
+
+    const formValues = watch();
+    // Check if at least one input is filled
+    const isFormChanged = Object.keys(selectedTask).some(
+        (key) => formValues[key as keyof TaskSchemaType] !== selectedTask[key as keyof TaskSchemaType]
+    );
 
     const handleClose = () => {
         const from = location.state?.from || '/'
         navigate(from);
-    }
+    };
 
     const onSubmit = (data: TaskSchemaType) => {
         if (taskId) {
             updateTask(data, Number(taskId));
             handleClose();
         }
-    }
+    };
 
     const handleDelete = () => {
         deleteTask(Number(taskId));
         handleClose();
-    }
+    };
 
     return (
         <div className="form-container container-edit">
@@ -42,7 +48,7 @@ export default function Task() {
                 <div className='flex w-full max-w-screen px-2 justify-between'>
                     <button
                         type='submit'
-                        className='btn-title-bar'
+                        className={`${isFormChanged ? 'btn-title-bar' : 'btn-title-bar-deact'}`}
                     >
                         Save
                     </button>

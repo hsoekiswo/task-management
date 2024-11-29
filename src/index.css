@@ -71,10 +71,6 @@
         @apply border-t border-slate-700 m-3;
     }
 
-    .btn-title-bar {
-        @apply font-bold text-gray-400 hover:bg-transparent hover:text-white;
-    }
-
     .btn-delete-container {
         @apply flex justify-center;
     }
@@ -179,7 +175,11 @@
     }
 
     .btn-title-bar {
-        @apply font-bold text-gray-400 hover:bg-transparent hover:text-white;
+        @apply font-bold text-white hover:bg-transparent hover:text-white;
+    }
+
+    .btn-title-bar-deact {
+        @apply font-bold text-gray-400 hover:bg-transparent hover:text-gray-400;
     }
 
     .btn-delete-container {
