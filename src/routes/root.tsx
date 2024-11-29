@@ -34,15 +34,6 @@ export default function Root() {
                         +
                     </button>
                 </div>
-                <ToastContainer
-                    autoClose={2000}
-                    position="top-center"
-                    theme="dark"
-                    toastClassName={() =>
-                    "bg-gray-600 relative flex m-2 p-2 min-h-10 w-2/5 rounded-md justify-between overflow-hidden cursor-pointer"
-                    }
-                    bodyClassName={() => "text-sm font-white font-med block p-3"}
-                />
             </main>
             <nav>
                 <aside>
@@ -84,6 +75,15 @@ export default function Root() {
                     document.body
                 )}
             </div>
+            <ToastContainer
+                    autoClose={2000}
+                    position="top-right"
+                    theme="dark"
+                    toastClassName={() =>
+                    "bg-gray-600 relative flex m-1 p-2 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer"
+                    }
+                    bodyClassName={() => "text-sm font-white font-med block p-3"}
+            />
         </UpdateContext.Provider>
     )
 }
