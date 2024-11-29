@@ -3,6 +3,8 @@ import { createPortal } from 'react-dom';
 import { TodayButton, CalendarButton } from '../components/Button/index';
 import { Outlet, NavLink } from 'react-router-dom';
 import Create from './create';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const UpdateContext = createContext(false);
 
@@ -13,6 +15,9 @@ export default function Root() {
     const informUpdate = () => {
         setTaskUpdated(prev => !prev);
     }
+
+    const notifySubmit = () => toast("Task submitted!");
+    const notifyUpdate = () => toast("Task updated!");
 
     return (
         <UpdateContext.Provider value={taskUpdated}>
@@ -26,6 +31,15 @@ export default function Root() {
                         +
                     </button>
                 </div>
+                <ToastContainer
+                    autoClose={2000}
+                    position="top-center"
+                    theme="dark"
+                    toastClassName={() =>
+                    "bg-gray-600 relative flex m-2 p-1 min-h-10 w-1/4 rounded-md justify-between overflow-hidden cursor-pointer"
+                    }
+                    bodyClassName={() => "text-sm font-white font-med block p-3"}
+                />
             </main>
             <nav>
                 <aside>
@@ -63,6 +77,7 @@ export default function Root() {
                     <Create
                         setShowCreate={setShowCreate}
                         informUpdate={informUpdate}
+                        onNotify={notifySubmit}
                     />,
                     document.body
                 )}
