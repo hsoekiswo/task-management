@@ -1,15 +1,6 @@
 import React from 'react';
 import { TaskSchemaType } from './schema';
-
-export const today = new Date();
-const [yearNumFmt, monthNumFmt, dayNumFmt] = today.toISOString().split('T')[0].split('-');
-export const todayString = `${yearNumFmt}-${monthNumFmt}-${dayNumFmt}`
-export const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const monthName = monthNames[today.getMonth()];
-export const fullDate: string = `${dayNumFmt} ${monthName}`
-const dayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-export const dayName: string = dayNames[today.getDay()];
+import { todayString } from './date';
 
 interface Task {
   id: number;

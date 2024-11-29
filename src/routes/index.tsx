@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { UpdateContext } from './root';
-import { fullDate, dayName, getTodayTasks, getCheckStatus, checkTask } from "../tasks";
+import { getTodayTasks, getCheckStatus, checkTask } from "../constant/tasks";
+import { fullDate, dayName } from "../constant/date";
+import { Task } from '../constant/type'
 
 export function loader() {
     const tasks = getTodayTasks();
@@ -9,15 +11,6 @@ export function loader() {
 }
 
 export default function Index() {
-    interface Task {
-        id: number;
-        title: string;
-        description: string;
-        date: string;
-        priority: string;
-        label: string;
-        check: boolean;
-    }
     const taskUpdated = useContext(UpdateContext);
     const {tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
     const [tasks, setTasks] = useState<Task[]>(initialTasks || []);

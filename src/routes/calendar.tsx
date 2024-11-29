@@ -3,7 +3,9 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
-import { getTasks, getCheckStatus, checkTask, todayString } from '../tasks';
+import { getTasks, getCheckStatus, checkTask } from '../constant/tasks';
+import { todayString } from '../constant/date';
+import { Task } from '../constant/type'
 
 export function loader() {
     const tasks = getTasks();
@@ -11,15 +13,6 @@ export function loader() {
 }
 
 export default function Calendar() {
-    interface Task {
-        id: number;
-        title: string;
-        description: string;
-        date: string;
-        priority: string;
-        label: string;
-        check: boolean;
-    }
     const { tasks: initialTasks } = useLoaderData() as { tasks: Task[] };
     const [tasks, setTasks] = useState<Task[]>(initialTasks || []);
     const taskUpdated = useContext(UpdateContext);

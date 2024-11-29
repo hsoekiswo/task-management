@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { todayDate } from './tasks';
+import { todayDate } from './date';
 
 export const TaskSchema = z.object({
     id: z.number().default(0),

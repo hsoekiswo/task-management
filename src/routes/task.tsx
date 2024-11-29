@@ -2,8 +2,9 @@ import { useContext } from 'react';
 import { useParams, Form, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TaskSchema, TaskSchemaType } from '../schema';
-import { getTaskById, updateTask, todayString, deleteTask } from '../tasks';
+import { TaskSchema, TaskSchemaType } from '../constant/schema';
+import { getTaskById, updateTask, deleteTask } from '../constant/tasks';
+import { todayString } from '../constant/date';
 import { UpdateContext } from './root';
 
 export default function Task() {
