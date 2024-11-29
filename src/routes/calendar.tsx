@@ -5,7 +5,8 @@ import listPlugin from '@fullcalendar/list';
 import { UpdateContext } from './root';
 import { getTasks, getCheckStatus, checkTask } from '../utils/tasks';
 import { todayString } from '../utils/date';
-import { Task } from '../constant/type'
+import { EventContent } from'../components/Button/index'
+import { Task } from '../constant/type';
 
 export function loader() {
     const tasks = getTasks();
@@ -36,22 +37,12 @@ export default function Calendar() {
         const task: Task | undefined = tasks.find((task) => task.title === eventInfo.event.title);
 
         return (
-            <div className='task-container'>
-                    <button
-                        onClick={() => task && openTask(task.id)}
-                        className='btn-task'
-                    >
-                        <input
-                            type='checkbox'
-                            id={`check` + task?.id}
-                            data-id={task?.id}
-                            onChange={handleCheck}
-                            onClick={(e) => {e.stopPropagation()}}
-                            className='task-checkbox small-checkbox'
-                        />
-                        <label htmlFor={`check` + task?.id} className='task-label text-lg'>{eventInfo.event.title}</label>
-                    </button>
-            </div>
+            <EventContent
+                eventInfo={eventInfo}
+                task={task}
+                onTaskOpen={openTask}
+                onTaskCheck={handleCheck}
+            />
         );
     };
 

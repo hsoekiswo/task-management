@@ -42,13 +42,7 @@ export function TaskButton({ id, title, label, onOpen, onCheck }) {
   )
 };
 
-export function EventContent({ eventInfo, tasks, onTaskOpen, onTaskCheck }: EventInfoProps) {
-  const task: Task | undefined = tasks.find(
-    (task) => task.title === eventInfo.event.title
-  );
-
-  if (!task) return null; // If no task matches, return null
-
+export function EventContent({ eventInfo, task, onTaskOpen, onTaskCheck }: EventInfoProps) {
   return (
     <div className="task-container">
       <button
