@@ -1,10 +1,13 @@
+import { useContext } from 'react';
 import { useParams, Form, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TaskSchema, TaskSchemaType } from '../schema';
 import { getTaskById, updateTask, todayString, deleteTask } from '../tasks';
+import { UpdateContext } from './root';
 
 export default function Task() {
+    const { notify } = useContext(UpdateContext)
     const { taskId } = useParams<{ taskId: string }>();
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,6 +33,9 @@ export default function Task() {
     const onSubmit = (data: TaskSchemaType) => {
         if (taskId) {
             updateTask(data, Number(taskId));
+            if (notify) {
+                notify();
+            }
             handleClose();
         }
     };

@@ -1,12 +1,15 @@
 import { useState, createContext } from 'react'
 import { createPortal } from 'react-dom';
 import { TodayButton, CalendarButton } from '../components/Button/index';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Routes, Route, Outlet, NavLink } from 'react-router-dom';
 import Create from './create';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const UpdateContext = createContext(false);
+export const UpdateContext = createContext({
+    taskUpdated: false,
+    notify: () => {}
+});
 
 export default function Root() {
     const [showCreate, setShowCreate] = useState(false);
@@ -17,10 +20,10 @@ export default function Root() {
     }
 
     const notifySubmit = () => toast("Task submitted!");
-    const notifyUpdate = () => toast("Task updated!");
+    const notifyUpdate = () => toast("Task updated!")
 
     return (
-        <UpdateContext.Provider value={taskUpdated}>
+        <UpdateContext.Provider value={{ taskUpdated, notify: notifyUpdate }}>
             <main onClick={() => setShowCreate(false)}>
                 <Outlet />
                 <div className="new-task-container">
@@ -36,7 +39,7 @@ export default function Root() {
                     position="top-center"
                     theme="dark"
                     toastClassName={() =>
-                    "bg-gray-600 relative flex m-2 p-1 min-h-10 w-1/4 rounded-md justify-between overflow-hidden cursor-pointer"
+                    "bg-gray-600 relative flex m-2 p-2 min-h-10 w-2/5 rounded-md justify-between overflow-hidden cursor-pointer"
                     }
                     bodyClassName={() => "text-sm font-white font-med block p-3"}
                 />
@@ -45,7 +48,6 @@ export default function Root() {
                 <aside>
                     <div className='nav-btn-container'>
                         <NavLink
-                            // className='btn-aside'
                             className={({ isActive, isPending }) =>
                                 isActive
                                     ? "active"
