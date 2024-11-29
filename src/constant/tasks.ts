@@ -1,16 +1,7 @@
 import React from 'react';
 import { TaskSchemaType } from './schema';
 import { todayString } from './date';
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  date: string | Date;
-  priority: string;
-  label: string;
-  check: boolean;
-}
+import { Task } from './type'
 
 export function createTask(data: TaskSchemaType) {
   const allTasks = JSON.parse(localStorage.getItem("tasks") || "[]")
