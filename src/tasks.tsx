@@ -2,12 +2,7 @@ import React from 'react';
 import { TaskSchemaType } from './schema';
 
 export const today = new Date();
-const [monthNumFmt, dayNumFmt, yearNumFmt] = today
-  .toLocaleDateString('default', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).split(/[-./]/);
+const [yearNumFmt, monthNumFmt, dayNumFmt] = today.toISOString().split('T')[0].split('-');
 export const todayString = `${yearNumFmt}-${monthNumFmt}-${dayNumFmt}`
 export const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
