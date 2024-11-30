@@ -1,5 +1,5 @@
 import '../../index.css'
-import { Task, EventInfoProps } from '../../constant/type'
+import { EventInfoProps, SaveButtonProps, CloseButtonProps, DeleteButtonProps } from '../../constant/type'
 
 export function TodayButton() {
   return (
@@ -67,3 +67,39 @@ export function EventContent({ eventInfo, task, onTaskOpen, onTaskCheck }: Event
     </div>
   );
 };
+
+export function SaveButton({ isChangeValid }: SaveButtonProps) {
+  return (
+    <button
+        type='submit'
+        className={`${isChangeValid ? 'btn-title-bar' : 'btn-title-bar-deact'}`}
+    >
+        Save
+    </button>
+  )
+}
+
+export function CloseButton({ handleClose }: CloseButtonProps) {
+  return (
+    <button
+        onClick={handleClose}
+        className='btn-title-bar'
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+    </button>
+  )
+}
+
+export function DeleteButton({ handleDelete }: DeleteButtonProps) {
+  return (
+    <button
+        type='button'
+        onClick={handleDelete}
+        className='btn-delete'
+    >
+        Delete
+    </button>
+  )
+}

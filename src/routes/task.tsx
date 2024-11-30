@@ -6,6 +6,7 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { getTaskById, updateTask, deleteTask } from '../utils/tasks';
 import { UpdateContext } from './root';
 import { InputTitle, InputDescription, InputDate, InputSelect } from '../components/Form/index';
+import { SaveButton, CloseButton, DeleteButton } from '../components/Button/index'
 import { Error } from '../components/Error/index'
 import { PRIORITY, LABEL } from '../constant/variable';
 
@@ -59,20 +60,8 @@ export default function Task() {
                 className='flex flex-col'
             >
                 <div className='flex w-full max-w-screen px-2 justify-between'>
-                    <button
-                        type='submit'
-                        className={`${isChangeValid ? 'btn-title-bar' : 'btn-title-bar-deact'}`}
-                    >
-                        Save
-                    </button>
-                    <button
-                        onClick={handleClose}
-                        className='btn-title-bar'
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                        </svg>
-                    </button>
+                    <SaveButton isChangeValid={isChangeValid} />
+                    <CloseButton handleClose={handleClose} />
                 </div>
                 <InputTitle
                     register={register}
@@ -112,13 +101,7 @@ export default function Task() {
                 errors && <Error errors={errors} inputType='date'/>
                 }
                 <div className='btn-delete-container'>
-                    <button
-                        type='button'
-                        onClick={handleDelete}
-                        className='btn-delete'
-                    >
-                        Delete
-                    </button>
+                    <DeleteButton handleDelete={handleDelete}/>
                 </div>
             </Form>
         </div>

@@ -16,3 +16,15 @@ export type EventInfoProps = {
     onTaskOpen: (taskId: string | number) => void; 
     onTaskCheck: (e: React.ChangeEvent<HTMLInputElement>) => void; 
 }
+
+export type SaveButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    isChangeValid: boolean;
+};
+
+export type CloseButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    handleClose: () => void;
+};
+
+export type DeleteButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    handleDelete: () => void;
+};
