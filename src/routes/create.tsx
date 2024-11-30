@@ -4,7 +4,8 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { createTask } from '../utils/tasks'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { todayString } from '../utils/date';
-import { InputTitle, InputDescription } from '../components/Form/index';
+import { InputTitle, InputDescription, InputDate, InputSelect } from '../components/Form/index';
+import { PRIORITY } from '../constant/variable';
 
 type CreateProps = {
     setShowCreate: (data: boolean) => void;
@@ -56,8 +57,6 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
                         </input> */}
                         <InputTitle
                             register={register}
-                            placeholder="Task Name"
-                            className="title"
                         />
                         {/* <textarea
                             {...register("description", { required: false })}
@@ -66,18 +65,20 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
                         </textarea> */}
                         <InputDescription
                             register={register}
-                            placeholder="Description"
-                            className="description description-new"
+                            className="description-new"
                         />
                     </div>
                     <div className="flex flex-row justify-stretch">
-                        <input
+                        {/* <input
                         type="date"
                         min={todayString}
                         {...register("date", { required: true })}
                         className="btn-select">
-                        </input>
-                        <select
+                        </input> */}
+                        <InputDate
+                            register={register}
+                        />
+                        {/* <select
                         {...register("priority", { required: false })}
                         className="btn-select">
                         <option value='' disabled>Priority</option>
@@ -85,7 +86,12 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
                         <option>Priority 2</option>
                         <option>Priority 3</option>
                         <option>Priority 4</option>
-                        </select>
+                        </select> */}
+                        <InputSelect
+                            registration={register("priority", { required: false })}
+                            defaultLabel='Priority'
+                            labels={PRIORITY}
+                        />
                         <select
                         {...register("label", { required: false })}
                         className="btn-select">

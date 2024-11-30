@@ -6,7 +6,8 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { getTaskById, updateTask, deleteTask } from '../utils/tasks';
 import { todayString } from '../utils/date';
 import { UpdateContext } from './root';
-import { InputTitle, InputDescription } from '../components/Form/index';
+import { InputTitle, InputDescription, InputDate, InputSelect } from '../components/Form/index';
+import { PRIORITY } from '../constant/variable';
 
 export default function Task() {
     const { notify } = useContext(UpdateContext)
@@ -80,8 +81,8 @@ export default function Task() {
                 </input> */}
                 <InputTitle
                     register={register}
-                    placeholder={selectedTask[0]?.title || 'Title'}
-                    className="title title-edit"
+                    placeholder={selectedTask[0]?.title}
+                    className="title-edit"
                 />
                 <div className='divider'></div>
                 {/* <textarea
@@ -91,17 +92,21 @@ export default function Task() {
                 </textarea> */}
                 <InputDescription
                     register={register}
-                    placeholder={selectedTask[0]?.description || 'Description'}
-                    className="description description-edit"
+                    placeholder={selectedTask[0]?.description}
+                    className="description-edit"
                 />
                 <div className='divider'></div>
-                <input type='date'
+                {/* <input type='date'
                     min={todayString}
                     {...register("date", { required: true })}
                     className="btn-select btn-select-edit">
-                </input>
+                </input> */}
+                <InputDate
+                    register={register}
+                    className='btn-select-edit'
+                />
                 <div className='divider'></div>
-                <select
+                {/* <select
                     {...register("priority", { required: true })}
                     className="btn-select btn-select-edit"
                 >
@@ -110,7 +115,13 @@ export default function Task() {
                     <option value="Priority 2">Priority 2</option>
                     <option value="Priority 3">Priority 3</option>
                     <option value="Priority 4">Priority 4</option>
-                </select>
+                </select> */}
+                <InputSelect
+                    registration={register("priority", { required: false })}
+                    defaultLabel='Priority'
+                    labels={PRIORITY}
+                    className='btn-select-edit'
+                />
                 <div className='divider'></div>
                 <select
                     {...register("label", { required: true })}
