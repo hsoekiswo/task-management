@@ -1,9 +1,11 @@
-export const today = new Date();
-const [yearNumFmt, monthNumFmt, dayNumFmt] = today.toISOString().split('T')[0].split('-');
-export const todayString = `${yearNumFmt}-${monthNumFmt}-${dayNumFmt}`
-export const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+import moment from "moment";
+
+export const today = moment().toDate();
+const dayNumFmt = Number(moment().format('DD'));
+const monthNumFmt = Number(moment().format('MM'));
+export const todayString = moment().format('YYYY-MM-DD')
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const monthName = monthNames[today.getMonth()];
-export const fullDate: string = `${dayNumFmt} ${monthName}`
+const monthName = monthNames[monthNumFmt - 1];
+export const fullDate: string = `${dayNumFmt} ${monthName}`;
 const dayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-export const dayName: string = dayNames[today.getDay()];
+export const dayName: string = dayNames[Number(moment().format('e'))];
