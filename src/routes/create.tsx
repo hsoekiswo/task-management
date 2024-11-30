@@ -4,6 +4,7 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { createTask } from '../utils/tasks'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { todayString } from '../utils/date';
+import { InputTitle, InputDescription } from '../components/Form/index';
 
 type CreateProps = {
     setShowCreate: (data: boolean) => void;
@@ -46,18 +47,28 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
             >
                 <div className="form-container">
                     <div className="flex flex-col">
-                    <input
-                        type='text'
-                        {...register("title", { required: true })}
-                        placeholder="Task Name"
-                        className="title"
-                        >
-                    </input>
-                    <textarea
-                        {...register("description", { required: false })}
-                        placeholder="Description"
-                        className="description description-new">
-                    </textarea>
+                        {/* <input
+                            type='text'
+                            {...register("title", { required: true })}
+                            placeholder="Task Name"
+                            className="title"
+                            >
+                        </input> */}
+                        <InputTitle
+                            register={register}
+                            placeholder="Task Name"
+                            className="title"
+                        />
+                        {/* <textarea
+                            {...register("description", { required: false })}
+                            placeholder="Description"
+                            className="description description-new">
+                        </textarea> */}
+                        <InputDescription
+                            register={register}
+                            placeholder="Description"
+                            className="description description-new"
+                        />
                     </div>
                     <div className="flex flex-row justify-stretch">
                         <input

@@ -6,6 +6,7 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { getTaskById, updateTask, deleteTask } from '../utils/tasks';
 import { todayString } from '../utils/date';
 import { UpdateContext } from './root';
+import { InputTitle, InputDescription } from '../components/Form/index';
 
 export default function Task() {
     const { notify } = useContext(UpdateContext)
@@ -20,12 +21,14 @@ export default function Task() {
         resolver: zodResolver(TaskSchema),
     });
 
-    const formValues = watch();
     // Check if at least one input is filled
-    const { title } = watch();
-    const isFormChanged = Object.keys(selectedTask).some(
-        (key) => formValues[key as keyof TaskSchemaType] !== selectedTask[key as keyof TaskSchemaType]
-    );
+    const { title, description, date, priority, label } = watch();
+    const isFormChanged = 
+        title !== selectedTask?.title ||
+        description !== selectedTask?.description ||
+        date !== selectedTask?.date ||
+        priority !== selectedTask?.priority ||
+        label !== selectedTask?.label;
     const isChangeValid = isFormChanged && title.length > 5;
 
     const handleClose = () => {
@@ -70,17 +73,27 @@ export default function Task() {
                         </svg>
                     </button>
                 </div>
-                <input
+                {/* <input
                     type='text'
                     {...register("title", { required: true })}
                     className="title title-edit">
-                </input>
+                </input> */}
+                <InputTitle
+                    register={register}
+                    placeholder={selectedTask[0]?.title || 'Title'}
+                    className="title title-edit"
+                />
                 <div className='divider'></div>
-                <textarea
+                {/* <textarea
                     {...register("description", { required: true })}
                     placeholder={selectedTask[0]?.description || 'Description'}
                     className="description description-edit">
-                </textarea>
+                </textarea> */}
+                <InputDescription
+                    register={register}
+                    placeholder={selectedTask[0]?.description || 'Description'}
+                    className="description description-edit"
+                />
                 <div className='divider'></div>
                 <input type='date'
                     min={todayString}
