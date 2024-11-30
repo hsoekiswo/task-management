@@ -6,6 +6,7 @@ import { TaskSchema, TaskSchemaType } from '../constant/schema';
 import { getTaskById, updateTask, deleteTask } from '../utils/tasks';
 import { UpdateContext } from './root';
 import { InputTitle, InputDescription, InputDate, InputSelect } from '../components/Form/index';
+import { Error } from '../components/Error/index'
 import { PRIORITY, LABEL } from '../constant/variable';
 
 export default function Task() {
@@ -105,10 +106,10 @@ export default function Task() {
                 />
                 <div className='divider'></div>
                 {
-                errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
+                errors && <Error errors={errors} inputType='title'/>
                 }
                 {
-                errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
+                errors && <Error errors={errors} inputType='date'/>
                 }
                 <div className='btn-delete-container'>
                     <button

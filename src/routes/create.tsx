@@ -23,7 +23,7 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
             label: '',
         },
         resolver: zodResolver(TaskSchema)
-    })
+    });
 
     const onSubmit = (data: TaskSchemaType) => {
         createTask(data);
@@ -71,12 +71,6 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
                             labels={LABEL}
                         />
                     </div>
-                    {
-                    errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>
-                    }
-                    {
-                    errors && <p className='text-red-500 p-2'>{errors.date?.message}</p>
-                    }
                     <div className="flex justify-end">
                     <button
                         type="submit"
