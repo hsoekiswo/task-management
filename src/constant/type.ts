@@ -17,6 +17,10 @@ export type EventInfoProps = {
     onTaskCheck: (e: React.ChangeEvent<HTMLInputElement>) => void; 
 }
 
+export type SubmitButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    isFormEmpty: boolean;
+};
+
 export type SaveButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     isChangeValid: boolean;
 };

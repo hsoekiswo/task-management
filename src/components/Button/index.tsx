@@ -1,5 +1,4 @@
-import '../../index.css'
-import { EventInfoProps, SaveButtonProps, CloseButtonProps, DeleteButtonProps } from '../../constant/type'
+import { EventInfoProps, SubmitButtonProps, SaveButtonProps, CloseButtonProps, DeleteButtonProps } from '../../constant/type'
 
 export function TodayButton() {
   return (
@@ -67,6 +66,25 @@ export function EventContent({ eventInfo, task, onTaskOpen, onTaskCheck }: Event
     </div>
   );
 };
+
+export function SubmitButton({ isFormEmpty }: SubmitButtonProps) {
+  return (
+    <button
+      type="submit"
+      disabled={isFormEmpty}
+      className={`${isFormEmpty ? 'btn-submit-deact' : 'btn-submit'}`}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        className={`${isFormEmpty ? 'icon-submit-deact' : 'icon-submit'}`}
+        viewBox="0 0 16 16"
+      >
+        <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+      </svg>
+    </button>
+  );
+}
 
 export function SaveButton({ isChangeValid }: SaveButtonProps) {
   return (

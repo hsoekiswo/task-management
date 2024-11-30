@@ -63,36 +63,36 @@ export default function Task() {
                     <SaveButton isChangeValid={isChangeValid} />
                     <CloseButton handleClose={handleClose} />
                 </div>
-                <InputTitle
-                    register={register}
-                    placeholder={selectedTask[0]?.title}
-                    className="title-edit"
-                />
+                    <InputTitle
+                        register={register}
+                        placeholder={selectedTask[0]?.title}
+                        className="title-edit"
+                    />
                 <div className='divider'></div>
-                <InputDescription
-                    register={register}
-                    placeholder={selectedTask[0]?.description}
-                    className="description-edit"
-                />
+                    <InputDescription
+                        register={register}
+                        placeholder={selectedTask[0]?.description}
+                        className="description-edit"
+                    />
                 <div className='divider'></div>
-                <InputDate
-                    register={register}
-                    className='btn-select-edit'
-                />
+                    <InputDate
+                        register={register}
+                        className='btn-select-edit'
+                    />
                 <div className='divider'></div>
-                <InputSelect
-                    registration={register("priority", { required: false })}
-                    defaultLabel='Priority'
-                    labels={PRIORITY}
-                    className='btn-select-edit'
-                />
+                    <InputSelect
+                        registration={register("priority", { required: false })}
+                        defaultLabel='Priority'
+                        labels={PRIORITY}
+                        className='btn-select-edit'
+                    />
                 <div className='divider'></div>
-                <InputSelect
-                    registration={register("label", { required: false })}
-                    defaultLabel='Label'
-                    labels={LABEL}
-                    className='btn-select-edit'
-                />
+                    <InputSelect
+                        registration={register("label", { required: false })}
+                        defaultLabel='Label'
+                        labels={LABEL}
+                        className='btn-select-edit'
+                    />
                 <div className='divider'></div>
                 {
                 errors && <Error errors={errors} inputType='title'/>
