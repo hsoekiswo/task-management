@@ -5,7 +5,7 @@ import { createTask } from '../utils/tasks'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { todayString } from '../utils/date';
 import { InputTitle, InputDescription, InputDate, InputSelect } from '../components/Form/index';
-import { PRIORITY } from '../constant/variable';
+import { PRIORITY, LABEL } from '../constant/variable';
 
 type CreateProps = {
     setShowCreate: (data: boolean) => void;
@@ -48,59 +48,28 @@ export default function Create( { setShowCreate, informUpdate, onNotify }: Creat
             >
                 <div className="form-container">
                     <div className="flex flex-col">
-                        {/* <input
-                            type='text'
-                            {...register("title", { required: true })}
-                            placeholder="Task Name"
-                            className="title"
-                            >
-                        </input> */}
                         <InputTitle
                             register={register}
                         />
-                        {/* <textarea
-                            {...register("description", { required: false })}
-                            placeholder="Description"
-                            className="description description-new">
-                        </textarea> */}
                         <InputDescription
                             register={register}
                             className="description-new"
                         />
                     </div>
                     <div className="flex flex-row justify-stretch">
-                        {/* <input
-                        type="date"
-                        min={todayString}
-                        {...register("date", { required: true })}
-                        className="btn-select">
-                        </input> */}
                         <InputDate
                             register={register}
                         />
-                        {/* <select
-                        {...register("priority", { required: false })}
-                        className="btn-select">
-                        <option value='' disabled>Priority</option>
-                        <option>Priority 1</option>
-                        <option>Priority 2</option>
-                        <option>Priority 3</option>
-                        <option>Priority 4</option>
-                        </select> */}
                         <InputSelect
                             registration={register("priority", { required: false })}
                             defaultLabel='Priority'
                             labels={PRIORITY}
                         />
-                        <select
-                        {...register("label", { required: false })}
-                        className="btn-select">
-                        <option value="" disabled>Label</option>
-                        <option>Family</option>
-                        <option>House</option>
-                        <option>Work</option>
-                        <option>Hobby</option>
-                        </select>
+                        <InputSelect
+                            registration={register("label", { required: false })}
+                            defaultLabel='Label'
+                            labels={LABEL}
+                        />
                     </div>
                     {
                     errors && <p className='text-red-500 p-2'>{errors.title?.message}</p>

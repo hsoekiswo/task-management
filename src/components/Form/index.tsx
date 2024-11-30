@@ -53,7 +53,7 @@ export function InputDate({ register, className }: InputDateProps) {
     )
 }
 
-export function InputSelect({ registration, defaultLabel, labels}: InputSelectProps) {
+export function InputSelect({ registration, defaultLabel, labels, className}: InputSelectProps) {
     return (
         <select
             {...registration}    
